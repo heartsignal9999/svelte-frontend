@@ -1,47 +1,41 @@
-<!-- src/Home.svelte -->
 <script lang="ts">
     import { push } from "svelte-spa-router";
-    import svelteLogo from "../assets/svelte.svg";
-    import viteLogo from "../../public/vite.svg";
 
     function navigateToHeartSignal() {
         push("/heartsignal");
     }
 </script>
 
-<main
-    class="flex justify-center items-center min-w-[320px] min-h-screen bg-[#242424] text-white dark:bg-white dark:text-[#213547]"
->
-    <div class="flex">
-        <a href="https://vitejs.dev" target="_blank" class="m-6">
-            <img
-                src={viteLogo}
-                class="h-24 p-6 transition-all duration-300 filter hover:drop-shadow-[0_0_2em_#646cffaa]"
-                alt="Vite Logo"
-            />
-        </a>
-        <a href="https://svelte.dev" target="_blank" class="m-6">
-            <img
-                src={svelteLogo}
-                class="h-24 p-6 transition-all duration-300 filter hover:drop-shadow-[0_0_2em_#ff3e00aa]"
-                alt="Svelte Logo"
-            />
-        </a>
-    </div>
-    <h1 class="text-3xl leading-tight">Vite + Svelte</h1>
+<style>
+  :root {
+    --color-heart-signal-pink: #eea4ce;
+    --color-heart-signal-blue: #92a3fd;
+  }
 
-    <p class="m-4">
-        Check out <a
-            href="https://github.com/sveltejs/kit#readme"
-            target="_blank"
-            class="font-medium text-[#646cff] hover:text-[#535bf2] dark:text-blue-600 dark:hover:text-blue-400"
-            >SvelteKit</a
-        >, the official Svelte app framework powered by Vite!
-    </p>
-    <button
-        on:click={navigateToHeartSignal}
-        class="m-4 p-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-    >
-        Go to HeartSignal
-    </button>
+  .custom-button {
+    background-image: linear-gradient(to right, var(--color-heart-signal-pink), var(--color-heart-signal-blue));
+  }
+</style>
+
+<main
+    class="flex flex-col justify-between items-center min-w-[320px] min-h-screen bg-[#242424] text-white dark:bg-white dark:text-[#213547] px-4"
+>
+  <div class="flex-grow flex justify-center items-center">
+    <div class="text-center">
+      <div class="text-4xl font-bold mb-1">
+        <span class="text-[var(--color-heart-signal-pink)]">Heart</span>
+        <span class="text-[var(--color-heart-signal-blue)]">Signal</span>
+      </div>
+      <div class="text-xl text-[#7b6f72] font-bold">
+        당신의 심장❤️에 귀기울여보세요
+      </div>
+    </div>
+  </div>
+
+  <button
+    on:click={navigateToHeartSignal}
+    class="w-full m-4 p-2 text-white text-xl font-bold py-2 px-4 rounded custom-button"
+  >
+    시작하기
+  </button>
 </main>
