@@ -2,7 +2,7 @@
 <script lang="ts">
     import { push } from "svelte-spa-router";
     import svelteLogo from "../assets/svelte.svg";
-    import viteLogo from "/vite.svg";
+    import viteLogo from "../../public/vite.svg";
 
     function navigateToHeartSignal() {
         push("/heartsignal");
