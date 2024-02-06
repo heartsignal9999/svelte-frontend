@@ -1,5 +1,16 @@
 <!-- src/HeartSignal.svelte -->
 <script lang="ts">
+    async function handleRecordButtonClick() {
+    try {
+      const response = await fetch("https://asia-northeast3-heartsignal-webapp.cloudfunctions.net/function-test")
+;
+      const data = await response.text(); // 또는 .json()을 사용하면 JSON 응답을 처리할 수 있습니다.
+      alert(data); // 팝업으로 결과를 보여줍니다.
+    } catch (error) {
+      console.error('에러가 발생했습니다:', error);
+      alert('에러가 발생했습니다.');
+    }
+  }
 </script>
 
 <main
@@ -28,6 +39,7 @@
   <button
     id="recordButton"
     class="w-full m-4 p-2 text-white text-xl py-2 px-4 rounded custom-button font-bold bg-blue-500 hover:bg-blue-700"
+    on:click={handleRecordButtonClick}
   >
     녹음 시작
   </button>
