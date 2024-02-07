@@ -33,27 +33,29 @@
   }
 
   async function startRecording() {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorder = new MediaRecorder(stream);
-      mediaRecorder.ondataavailable = (event) => {
-        audioChunks.push(event.data);
-      };
-      mediaRecorder.onstop = handleStopRecording;
-      mediaRecorder.start();
-      isRecording = true;
-      startTime = Date.now();
-      timerInterval = setInterval(updateTimer, 1000);
+  try {
+    // Clear existing audio chunks before starting a new recording
+    audioChunks = [];
 
-      statusText.set('녹음 중입니다. 10초 이상 심장음을 녹음하세요.');
-      recordButtonClasses.set('bg-red-500 hover:bg-red-700');
-      recordButtonText.set('녹음 종료');
-    } catch (error) {
-      console.error('Error accessing the microphone:', error);
-      statusText.set('마이크 접근 권한을 얻지 못했습니다. 권한 승인 후 다시 시도하세요.');
-    }
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.ondataavailable = (event) => {
+      audioChunks.push(event.data);
+    };
+    mediaRecorder.onstop = handleStopRecording;
+    mediaRecorder.start();
+    isRecording = true;
+    startTime = Date.now();
+    timerInterval = setInterval(updateTimer, 1000);
+
+    statusText.set('녹음 중입니다. 10초 이상 심장음을 녹음하세요.');
+    recordButtonClasses.set('bg-red-500 hover:bg-red-700');
+    recordButtonText.set('녹음 종료');
+  } catch (error) {
+    console.error('Error accessing the microphone:', error);
+    statusText.set('마이크 접근 권한을 얻지 못했습니다. 권한 승인 후 다시 시도하세요.');
   }
-
+}
   function handleStopRecording() {
     clearInterval(timerInterval);
     isRecording = false;
