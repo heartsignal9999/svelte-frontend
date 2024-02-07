@@ -1,14 +1,96 @@
 <!-- src/HeartSignal.svelte -->
 <script lang="ts">
-    async function handleRecordButtonClick() {
+  import { onMount, onDestroy } from 'svelte';
+  import { writable } from 'svelte/store';
+
+  let isRecording = false;
+  let mediaRecorder: MediaRecorder | null = null;
+  let audioChunks: Blob[] = [];
+  let startTime: number;
+  let timerInterval: number;
+
+  const statusText = writable<string>('녹음 준비가 완료되었습니다.');
+  const timerDisplay = writable<string>('00:00');
+  const recordButtonClasses = writable<string>('bg-blue-500 hover:bg-blue-700');
+  const recordButtonText = writable<string>('새로운 녹음 시작');
+  const audioUrl = writable<string | null>(null);
+  const imageUrl = writable<string | null>(null);
+
+  onMount(() => {
+    statusText.set('녹음 준비가 완료되었습니다.');
+  });
+
+  onDestroy(() => {
+    clearInterval(timerInterval);
+  });
+
+  function updateTimer() {
+    const elapsed = Date.now() - startTime;
+    const seconds = Math.floor(elapsed / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    timerDisplay.set(`${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`);
+  }
+
+  async function startRecording() {
     try {
-      const response = await fetch("https://asia-northeast3-heartsignal-webapp.cloudfunctions.net/function-test")
-;
-      const data = await response.text(); // 또는 .json()을 사용하면 JSON 응답을 처리할 수 있습니다.
-      alert(data); // 팝업으로 결과를 보여줍니다.
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = (event) => {
+        audioChunks.push(event.data);
+      };
+      mediaRecorder.onstop = handleStopRecording;
+      mediaRecorder.start();
+      isRecording = true;
+      startTime = Date.now();
+      timerInterval = setInterval(updateTimer, 1000);
+
+      statusText.set('녹음 중입니다. 10초 이상 심장음을 녹음하세요.');
+      recordButtonClasses.set('bg-red-500 hover:bg-red-700');
+      recordButtonText.set('녹음 종료');
     } catch (error) {
-      console.error('에러가 발생했습니다:', error);
-      alert('에러가 발생했습니다.');
+      console.error('Error accessing the microphone:', error);
+      statusText.set('마이크 접근 권한을 얻지 못했습니다. 권한 승인 후 다시 시도하세요.');
+    }
+  }
+
+  function handleStopRecording() {
+    clearInterval(timerInterval);
+    isRecording = false;
+    uploadRecording();
+    statusText.set('녹음파일 처리중...');
+    recordButtonClasses.set('bg-blue-500 hover:bg-blue-700');
+    recordButtonText.set('새로운 녹음 시작');
+  }
+
+  function stopRecording() {
+    if (mediaRecorder) {
+      mediaRecorder.stop();
+    }
+  }
+
+  async function uploadRecording() {
+    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+    const formData = new FormData();
+    formData.append('audioFile', audioBlob);
+
+    try {
+      const response = await fetch('https://heartsignal.one/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      audioUrl.set(data.audioUrl);
+      imageUrl.set(data.imageUrl);
+      statusText.set('녹음 업로드와 처리가 완료되었습니다.');
+    } catch (error) {
+      console.error('There has been a problem with your fetch operation:', error);
+      statusText.set('Upload failed.');
     }
   }
 </script>
@@ -27,20 +109,30 @@
       <!-- Update the image src path as per your project structure -->
       <img src="public/heartsignal.png" alt="Heart Signal" class="mb-3" />
       <div id="description" class="text-center">
-        스마트폰 마이크를 왼쪽 유두 아래 늑골에 붙이고 녹음하세요.
+        스마트폰 마이크를 심장 부근(왼쪽 가슴 아래 늑골)에 붙이고 녹음하세요.
       </div>
     </div>
     <div id="resultContainer" class="mt-5" style="margin-bottom: 100px;"></div>
   </div>
-
+  {#if $audioUrl && $imageUrl}
+    <div id="resultContainer" class="mt-5">
+      <img src={$imageUrl} alt="Spectrogram" class="mb-3" />
+      <audio src={$audioUrl} controls></audio>
+    </div>
+  {/if}
   <div id="status" class="text-lg mb-3 text-center">
-    녹음 준비가 완료되었습니다.
+    {$statusText}
   </div>
   <button
     id="recordButton"
-    class="w-full m-4 p-2 text-white text-xl py-2 px-4 rounded custom-button font-bold bg-blue-500 hover:bg-blue-700"
-    on:click={handleRecordButtonClick}
+    class="w-full m-4 p-2 text-white text-xl py-2 px-4 rounded custom-button font-bold {$recordButtonClasses}"
+    on:click={isRecording ? stopRecording : startRecording}
   >
-    녹음 시작
+    {$recordButtonText}
   </button>
+  {#if isRecording}
+    <div id="timer" class="...">
+      {$timerDisplay}
+    </div>
+  {/if}
 </main>
