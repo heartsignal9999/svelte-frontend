@@ -1,3 +1,4 @@
+<!-- src/Pages/Home.svelte -->
 <script lang="ts">
     import { push } from "svelte-spa-router";
 
@@ -5,17 +6,6 @@
         push("/heartsignal");
     }
 </script>
-
-<style>
-  :root {
-    --color-heart-signal-pink: #eea4ce;
-    --color-heart-signal-blue: #92a3fd;
-  }
-
-  .custom-button {
-    background-image: linear-gradient(to right, var(--color-heart-signal-pink), var(--color-heart-signal-blue));
-  }
-</style>
 
 <main
     class="flex flex-col justify-between items-center min-w-[320px] min-h-screen bg-[#242424] text-white dark:bg-white dark:text-[#213547] px-4"

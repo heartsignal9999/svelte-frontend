@@ -1,7 +1,12 @@
-<!-- src/HeartSignal.svelte -->
+<!-- src/Pages/HeartSignal.svelte -->
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import { writable } from 'svelte/store';
+  import Modal from './Modal.svelte';
+  
+  let showModal = false;
+  let modalTitle = '';
+  let modalContent = '';
 
   let isRecording = false;
   let showAnalyzeButton = false;
@@ -122,18 +127,34 @@
   }
   }
 
-  async function analyzeRecording() {
-    try {
-      const response = await fetch('https://us-central1-heartsignal-webapp.cloudfunctions.net/whattime');
-      if (!response.ok) throw new Error('Network response was not ok');
+  // async function analyzeRecording() {
+  //   try {
+  //     const response = await fetch('https://us-central1-heartsignal-webapp.cloudfunctions.net/whattime');
+  //     if (!response.ok) throw new Error('Network response was not ok');
 
-      const data = await response.json();
-      alert(`현재 시간: ${data.current_time}`);  // 클라우드 함수의 응답으로 받은 시간을 팝업으로 표시
-    } catch (error) {
-      console.error('There has been a problem with your fetch operation:', error);
-      alert('분석 중 오류가 발생했습니다.');  // 오류 발생 시 사용자에게 알림
-    }
+  //     const data = await response.json();
+  //     alert(`현재 시간: ${data.current_time}`);  // 클라우드 함수의 응답으로 받은 시간을 팝업으로 표시
+  //   } catch (error) {
+  //     console.error('There has been a problem with your fetch operation:', error);
+  //     alert('분석 중 오류가 발생했습니다.');  // 오류 발생 시 사용자에게 알림
+  //   }
+  // }
+  
+  async function analyzeRecording() {
+    modalTitle = '심장음 분석을 진행합니다.';
+    modalContent = `<img src="public/example.png" alt="Example"/><p>분석은 위와 같이 제공되며, 분석 결과는 테스트 기간 동안 보관됩니다. 분석을 진행하시겠습니까?</p>`;
+    showModal = true;
   }
+
+  function handleConfirm() {
+    alert('아직 준비중입니다. 스미마셍~');
+    showModal = false;
+  }
+
+  function handleCancel() {
+    showModal = false;
+  }
+
 </script>
 
 <main
@@ -165,10 +186,10 @@
   <div id="status" class="text-lg mb-3 text-center">
     {@html $statusText}
   </div>
-  <div class="flex justify-between w-full">
+  <div class="flex justify-center w-full">
     <button
       id="recordButton"
-      class="w-full m-2 p-2 text-white text-xl py-2 px-4 rounded custom-button font-bold {$recordButtonProps.classes}"
+      class="m-4 p-2 text-white text-xl py-2 px-4 rounded font-bold {$recordButtonProps.classes} {showAnalyzeButton ? 'w-1/2' : 'w-full'}  mx-0"
       on:click={isRecording ? stopRecording : startRecording}
       disabled={$recordButtonProps.disabled}
     >
@@ -177,11 +198,12 @@
       {/if}
       {$recordButtonProps.text}
     </button>
+
   
     {#if showAnalyzeButton}
       <button
         id="analyzeButton"
-        class="w-1/2 m-2 p-2 text-white text-xl py-2 px-4 rounded custom-button font-bold {$analyzeButtonProps.classes}"
+        class="flex-grow m-4 p-2 text-white text-xl py-2 px-4 rounded custom-button font-bold {$analyzeButtonProps.classes}"
         on:click={analyzeRecording}
         disabled={$analyzeButtonProps.disabled}
       >
@@ -189,4 +211,12 @@
       </button>
     {/if}
   </div>
+
+  <Modal 
+  show={showModal}
+  title={modalTitle}
+  content={modalContent}
+  onConfirm={handleConfirm}
+  onCancel={handleCancel}
+/>
 </main>

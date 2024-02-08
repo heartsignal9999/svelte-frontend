@@ -1,0 +1,9 @@
+/*  src/styles/custom-styles.css */
+:root {
+  --color-heart-signal-pink: #eea4ce;
+  --color-heart-signal-blue: #92a3fd;
+}
+
+.custom-button {
+  background-image: linear-gradient(to right, var(--color-heart-signal-pink), var(--color-heart-signal-blue));
+}
