@@ -4,6 +4,8 @@
   import { writable } from 'svelte/store';
 
   let isRecording = false;
+  let showAnalyzeButton = false;
+  let isRerecording = false;
   let mediaRecorder: MediaRecorder | null = null;
   let audioChunks: Blob[] = [];
   let startTime: number;
@@ -11,8 +13,16 @@
 
   const statusText = writable<string>('녹음 준비가 완료되었습니다.');
   const timerDisplay = writable<string>('00:00');
-  const recordButtonClasses = writable<string>('bg-blue-500 hover:bg-blue-700');
-  const recordButtonText = writable<string>('새로운 녹음 시작');
+  const recordButtonProps = writable({
+    classes: 'bg-blue-500 hover:bg-blue-700',
+    text: '녹음 시작',
+    disabled: false,
+  });
+  const analyzeButtonProps = writable({
+    classes: 'hidden',
+    text: '심장음 분석하기',
+    disabled: false,
+  });
   const audioUrl = writable<string | null>(null);
   const imageUrl = writable<string | null>(null);
 
@@ -33,42 +43,61 @@
   }
 
   async function startRecording() {
-  try {
-    // Clear existing audio chunks before starting a new recording
+    if (!navigator.mediaDevices) {
+      statusText.set('마이크 접근 권한을 얻지 못했습니다. 권한 승인 후 다시 시도하세요.');
+      return;
+    }
+
+    isRerecording ? analyzeButtonProps.update(props => ({ ...props, classes: 'bg-gray-500' }))
+                  : showAnalyzeButton = false;
+    statusText.set('심장음 녹음을 위해 마이크 접근을 허용해주세요.');
+    recordButtonProps.set({ classes: 'bg-gray-500', text: '허용 대기중', disabled: false });
     audioChunks = [];
 
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaRecorder = new MediaRecorder(stream);
-    mediaRecorder.ondataavailable = (event) => {
-      audioChunks.push(event.data);
-    };
-    mediaRecorder.onstop = handleStopRecording;
-    mediaRecorder.start();
-    isRecording = true;
-    startTime = Date.now();
-    timerInterval = setInterval(updateTimer, 1000);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
+      mediaRecorder.onstop = handleStopRecording;
+      mediaRecorder.start();
 
-    statusText.set('녹음 중입니다. 10초 이상 심장음을 녹음하세요.');
-    recordButtonClasses.set('bg-red-500 hover:bg-red-700');
-    recordButtonText.set('녹음 종료');
-  } catch (error) {
-    console.error('Error accessing the microphone:', error);
-    statusText.set('마이크 접근 권한을 얻지 못했습니다. 권한 승인 후 다시 시도하세요.');
+      isRecording = true;
+      timerDisplay.set('0:00');
+      startTime = Date.now();
+      timerInterval = setInterval(updateTimer, 1000);
+
+      recordButtonProps.set({ classes: 'bg-red-500 hover:bg-red-700', text: '녹음 종료', disabled: false });
+      statusText.set('녹음 중입니다. 10초 이상 심장음을 녹음하세요.');
+    } catch (error) {
+      console.error('Error accessing the microphone:', error);
+      statusText.set('마이크 접근 권한을 얻지 못했습니다. 권한 승인 후 다시 시도하세요.');
+      recordButtonProps.set({ text: '녹음 실패', classes: 'bg-blue-500 hover:bg-blue-700', disabled: false });
+    }
   }
-}
+
   function handleStopRecording() {
-    clearInterval(timerInterval);
-    isRecording = false;
-    uploadRecording();
-    statusText.set('녹음파일 처리중...');
-    recordButtonClasses.set('bg-blue-500 hover:bg-blue-700');
-    recordButtonText.set('새로운 녹음 시작');
-  }
+  isRecording = false;
+  clearInterval(timerInterval);
+  recordButtonProps.set({ classes: 'bg-gray-500', text: '녹음 종료', disabled: true });
+
+  uploadRecording()
+    .then(() => {
+      isRerecording = true;
+      showAnalyzeButton = true;
+      recordButtonProps.set({ classes: 'bg-blue-500 hover:bg-blue-700', text: '녹음 다시 하기', disabled: false });
+      analyzeButtonProps.set({ classes: 'bg-green-500 hover:bg-green-700', text: '심장음 분석하기', disabled: false });
+      statusText.set('심장음 파일 분석을 위한 전처리가 완료되었습니다. <br>심장음이 잘 녹음되었는지 재생 버튼을 눌러 확인해보세요.');
+    })
+    .catch((error) => {
+      console.error('Error during upload:', error);
+      statusText.set('Upload failed.');
+      recordButtonProps.set({ classes: 'bg-blue-500 hover:bg-blue-700', text: '녹음 다시 하기', disabled: false });
+    });
+}
+
 
   function stopRecording() {
-    if (mediaRecorder) {
-      mediaRecorder.stop();
-    }
+    mediaRecorder?.stop();
   }
 
   async function uploadRecording() {
@@ -77,22 +106,32 @@
     formData.append('audioFile', audioBlob);
 
     try {
-      const response = await fetch('https://heartsignal.one/upload', {
+      const response = await fetch('https://dev.heartsignal.one/upload', {
         method: 'POST',
         body: formData,
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+      if (!response.ok) throw new Error('Network response was not ok');
 
       const data = await response.json();
       audioUrl.set(data.audioUrl);
       imageUrl.set(data.imageUrl);
-      statusText.set('녹음 업로드와 처리가 완료되었습니다.');
+    } catch (error) {
+    console.error('There has been a problem with your fetch operation:', error);
+    throw error; // Re-throw the error to propagate it to the caller
+  }
+  }
+
+  async function analyzeRecording() {
+    try {
+      const response = await fetch('https://us-central1-heartsignal-webapp.cloudfunctions.net/whattime');
+      if (!response.ok) throw new Error('Network response was not ok');
+
+      const data = await response.json();
+      alert(`현재 시간: ${data.current_time}`);  // 클라우드 함수의 응답으로 받은 시간을 팝업으로 표시
     } catch (error) {
       console.error('There has been a problem with your fetch operation:', error);
-      statusText.set('Upload failed.');
+      alert('분석 중 오류가 발생했습니다.');  // 오류 발생 시 사용자에게 알림
     }
   }
 </script>
@@ -108,33 +147,46 @@
       <div>현재 하트시그널은 베타테스트 중입니다.</div>
       <div>녹음하신 파일은 클라우드에 저장되며,</div>
       <div>테스트 기간(~2월 20일) 동안 보유됩니다.</div>
-      <!-- Update the image src path as per your project structure -->
-      <img src="public/heartsignal.png" alt="Heart Signal" class="mb-3" />
+      {#if !$audioUrl || isRecording}
+        <img src="public/heartsignal.png" alt="Heart Signal"/>
+      {/if}
       <div id="description" class="text-center">
         스마트폰 마이크를 심장 부근(왼쪽 가슴 아래 늑골)에 붙이고 녹음하세요.
       </div>
     </div>
     <div id="resultContainer" class="mt-5" style="margin-bottom: 100px;"></div>
   </div>
-  {#if $audioUrl && $imageUrl}
+  {#if $audioUrl && !isRecording}
     <div id="resultContainer" class="mt-5">
       <img src={$imageUrl} alt="Spectrogram" class="mb-3" />
       <audio src={$audioUrl} controls></audio>
     </div>
   {/if}
   <div id="status" class="text-lg mb-3 text-center">
-    {$statusText}
+    {@html $statusText}
   </div>
-  <button
-    id="recordButton"
-    class="w-full m-4 p-2 text-white text-xl py-2 px-4 rounded custom-button font-bold {$recordButtonClasses}"
-    on:click={isRecording ? stopRecording : startRecording}
-  >
-    {$recordButtonText}
-  </button>
-  {#if isRecording}
-    <div id="timer" class="...">
-      {$timerDisplay}
-    </div>
-  {/if}
+  <div class="flex justify-between w-full">
+    <button
+      id="recordButton"
+      class="w-full m-2 p-2 text-white text-xl py-2 px-4 rounded custom-button font-bold {$recordButtonProps.classes}"
+      on:click={isRecording ? stopRecording : startRecording}
+      disabled={$recordButtonProps.disabled}
+    >
+      {#if isRecording}
+        <span id="timer" class="font-normal">{$timerDisplay}</span>
+      {/if}
+      {$recordButtonProps.text}
+    </button>
+  
+    {#if showAnalyzeButton}
+      <button
+        id="analyzeButton"
+        class="w-1/2 m-2 p-2 text-white text-xl py-2 px-4 rounded custom-button font-bold {$analyzeButtonProps.classes}"
+        on:click={analyzeRecording}
+        disabled={$analyzeButtonProps.disabled}
+      >
+        {$analyzeButtonProps.text}
+      </button>
+    {/if}
+  </div>
 </main>
