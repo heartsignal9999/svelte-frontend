@@ -1,176 +1,176 @@
 <!-- src/Pages/HeartSignal.svelte -->
 <script lang="ts">
-    import { onMount, onDestroy } from 'svelte';
-    import { writable } from 'svelte/store';
-    import Modal from './Modal.svelte';
-    
-    let showModal = false;
-    let modalTitle = '';
-    let modalContent = '';
+  import { onMount, onDestroy } from 'svelte';
+  import { writable } from 'svelte/store';
+  import Modal from './Modal.svelte';
   
-    let isRecording = false;
-    let showAnalyzeButton = false;
-    let isRerecording = false;
-    let mediaRecorder: MediaRecorder | null = null;
-    let audioChunks: Blob[] = [];
-    let startTime: number;
-    let timerInterval: number;
-  
-    const statusText = writable<string>('녹음 준비가 완료되었습니다.');
-    const timerDisplay = writable<string>('00:00');
-    const recordButtonProps = writable({
-      classes: 'bg-blue-500 hover:bg-blue-700',
-      text: '녹음 시작',
-      disabled: false,
-    });
-    const analyzeButtonProps = writable({
-      classes: 'hidden',
-      text: '심장음 분석하기',
-      disabled: false,
-    });
-    const audioUrl = writable<string | null>(null);
-    const imageUrl = writable<string | null>(null);
-  
-    onMount(() => {
-      statusText.set('녹음 준비가 완료되었습니다.');
-    });
-  
-    onDestroy(() => {
-      clearInterval(timerInterval);
-    });
-  
-    function updateTimer() {
-      const elapsed = Date.now() - startTime;
-      const seconds = Math.floor(elapsed / 1000);
-      const minutes = Math.floor(seconds / 60);
-      const remainingSeconds = seconds % 60;
-      timerDisplay.set(`${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`);
-    }
-  
-    async function startRecording() {
-      if (!navigator.mediaDevices) {
-        statusText.set('마이크 접근 권한을 얻지 못했습니다. 권한 승인 후 다시 시도하세요.');
-        return;
-      }
-  
-      isRerecording ? analyzeButtonProps.update(props => ({ ...props, classes: 'bg-gray-500' }))
-                    : showAnalyzeButton = false;
-      statusText.set('심장음 녹음을 위해 마이크 접근을 허용해주세요.');
-      recordButtonProps.set({ classes: 'bg-gray-500', text: '허용 대기중', disabled: false });
-      audioChunks = [];
-  
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
-        mediaRecorder.onstop = handleStopRecording;
-        mediaRecorder.start();
-  
-        isRecording = true;
-        timerDisplay.set('0:00');
-        startTime = Date.now();
-        timerInterval = setInterval(updateTimer, 1000);
-  
-        recordButtonProps.set({ classes: 'bg-red-500 hover:bg-red-700', text: '녹음 종료', disabled: false });
-        statusText.set('녹음 중입니다. 10초 이상 심장음을 녹음하세요.');
-      } catch (error) {
-        console.error('Error accessing the microphone:', error);
-        statusText.set('마이크 접근 권한을 얻지 못했습니다. 권한 승인 후 다시 시도하세요.');
-        recordButtonProps.set({ text: '녹음 실패', classes: 'bg-blue-500 hover:bg-blue-700', disabled: false });
-      }
-    }
-  
-    function handleStopRecording() {
-    isRecording = false;
+  let showModal = false;
+  let modalTitle = '';
+  let modalContent = '';
+
+  let isRecording = false;
+  let showAnalyzeButton = false;
+  let isRerecording = false;
+  let mediaRecorder: MediaRecorder | null = null;
+  let audioChunks: Blob[] = [];
+  let startTime: number;
+  let timerInterval: number;
+
+  const statusText = writable<string>('녹음 준비가 완료되었습니다.');
+  const timerDisplay = writable<string>('00:00');
+  const recordButtonProps = writable({
+    classes: 'bg-blue-500 hover:bg-blue-700',
+    text: '녹음 시작',
+    disabled: false,
+  });
+  const analyzeButtonProps = writable({
+    classes: 'hidden',
+    text: '심장음 분석하기',
+    disabled: false,
+  });
+  const audioUrl = writable<string | null>(null);
+  const imageUrl = writable<string | null>(null);
+
+  onMount(() => {
+    statusText.set('녹음 준비가 완료되었습니다.');
+  });
+
+  onDestroy(() => {
     clearInterval(timerInterval);
-    recordButtonProps.set({ classes: 'bg-gray-500', text: '녹음 종료', disabled: true });
-  
-    uploadRecording()
-      .then(() => {
-        isRerecording = true;
-        showAnalyzeButton = true;
-        recordButtonProps.set({ classes: 'bg-blue-500 hover:bg-blue-700', text: '녹음 다시 하기', disabled: false });
-        analyzeButtonProps.set({ classes: 'bg-green-500 hover:bg-green-700', text: '심장음 분석하기', disabled: false });
-        statusText.set('심장음 파일 분석을 위한 전처리가 완료되었습니다. <br>심장음이 잘 녹음되었는지 재생 버튼을 눌러 확인해보세요.');
-      })
-      .catch((error) => {
-        console.error('Error during upload:', error);
-        statusText.set('Upload failed.');
-        recordButtonProps.set({ classes: 'bg-blue-500 hover:bg-blue-700', text: '녹음 다시 하기', disabled: false });
-      });
+  });
+
+  function updateTimer() {
+    const elapsed = Date.now() - startTime;
+    const seconds = Math.floor(elapsed / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    timerDisplay.set(`${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`);
   }
-  
-  
-    function stopRecording() {
-      mediaRecorder?.stop();
+
+  async function startRecording() {
+    if (!navigator.mediaDevices) {
+      statusText.set('마이크 접근 권한을 얻지 못했습니다. 권한 승인 후 다시 시도하세요.');
+      return;
     }
-  
-    async function fetchAuthToken() {
+
+    isRerecording ? analyzeButtonProps.update(props => ({ ...props, classes: 'bg-gray-500' }))
+                  : showAnalyzeButton = false;
+    statusText.set('심장음 녹음을 위해 마이크 접근을 허용해주세요.');
+    recordButtonProps.set({ classes: 'bg-gray-500', text: '허용 대기중', disabled: false });
+    audioChunks = [];
+
     try {
-      const endpoint = 'https://asia-northeast3-heartsignal-webapp.cloudfunctions.net/wav-to-img-upload';
-      const audience = endpoint;
-  
-      // fetch 요청을 POST로 변경
-      const tokenResponse = await fetch('/auth', {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
+      mediaRecorder.onstop = handleStopRecording;
+      mediaRecorder.start();
+
+      isRecording = true;
+      timerDisplay.set('0:00');
+      startTime = Date.now();
+      timerInterval = setInterval(updateTimer, 1000);
+
+      recordButtonProps.set({ classes: 'bg-red-500 hover:bg-red-700', text: '녹음 종료', disabled: false });
+      statusText.set('녹음 중입니다. 10초 이상 심장음을 녹음하세요.');
+    } catch (error) {
+      console.error('Error accessing the microphone:', error);
+      statusText.set('마이크 접근 권한을 얻지 못했습니다. 권한 승인 후 다시 시도하세요.');
+      recordButtonProps.set({ text: '녹음 실패', classes: 'bg-blue-500 hover:bg-blue-700', disabled: false });
+    }
+  }
+
+  function handleStopRecording() {
+  isRecording = false;
+  clearInterval(timerInterval);
+  recordButtonProps.set({ classes: 'bg-gray-500', text: '녹음 종료', disabled: true });
+
+  uploadRecording()
+    .then(() => {
+      isRerecording = true;
+      showAnalyzeButton = true;
+      recordButtonProps.set({ classes: 'bg-blue-500 hover:bg-blue-700', text: '녹음 다시 하기', disabled: false });
+      analyzeButtonProps.set({ classes: 'bg-green-500 hover:bg-green-700', text: '심장음 분석하기', disabled: false });
+      statusText.set('심장음 파일 분석을 위한 전처리가 완료되었습니다. <br>심장음이 잘 녹음되었는지 재생 버튼을 눌러 확인해보세요.');
+    })
+    .catch((error) => {
+      console.error('Error during upload:', error);
+      statusText.set('Upload failed.');
+      recordButtonProps.set({ classes: 'bg-blue-500 hover:bg-blue-700', text: '녹음 다시 하기', disabled: false });
+    });
+}
+
+
+  function stopRecording() {
+    mediaRecorder?.stop();
+  }
+
+  async function fetchAuthToken() {
+  try {
+    const endpoint = 'https://asia-northeast3-heartsignal-webapp.cloudfunctions.net/wav-to-img-upload';
+    const audience = endpoint;
+
+    // fetch 요청을 POST로 변경
+    const tokenResponse = await fetch('/auth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',  // 적절한 Content-Type 헤더 추가
+      },
+      body: `endpoint=${encodeURIComponent(endpoint)}&audience=${encodeURIComponent(audience)}`  // body 데이터 추가
+    });
+
+    if (!tokenResponse.ok) throw new Error('Failed to fetch auth token');
+
+    const tokenData = await tokenResponse.json();
+    return tokenData;
+  } catch (error) {
+    console.error('Error fetching auth token:', error);
+    throw error;
+  }
+}
+
+  async function uploadRecording() {
+    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+    const formData = new FormData();
+    formData.append('audioFile', audioBlob);
+
+    try {
+      const authToken = await fetchAuthToken();
+      const response = await fetch('https://asia-northeast3-heartsignal-webapp.cloudfunctions.net/wav-to-img-upload', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',  // 적절한 Content-Type 헤더 추가
-        },
-        body: `endpoint=${encodeURIComponent(endpoint)}&audience=${encodeURIComponent(audience)}`  // body 데이터 추가
+        'Authorization': `Bearer ${authToken}`
+      },
+        body: formData,
       });
-  
-      if (!tokenResponse.ok) throw new Error('Failed to fetch auth token');
-  
-      const tokenData = await tokenResponse.json();
-      return tokenData;
+
+      if (!response.ok) throw new Error('Network response was not ok');
+
+      const data = await response.json();
+      audioUrl.set(data.audioUrl);
+      imageUrl.set(data.imageUrl);
     } catch (error) {
-      console.error('Error fetching auth token:', error);
-      throw error;
+    console.error('There has been a problem with your fetch operation:', error);
+    throw error; // Re-throw the error to propagate it to the caller
     }
   }
   
-    async function uploadRecording() {
-      const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-      const formData = new FormData();
-      formData.append('audioFile', audioBlob);
-  
-      try {
-        const authToken = await fetchAuthToken();
-        const response = await fetch('https://asia-northeast3-heartsignal-webapp.cloudfunctions.net/wav-to-img-upload', {
-          method: 'POST',
-          headers: {
-          'Authorization': `Bearer ${authToken}`
-        },
-          body: formData,
-        });
-  
-        if (!response.ok) throw new Error('Network response was not ok');
-  
-        const data = await response.json();
-        audioUrl.set(data.audioUrl);
-        imageUrl.set(data.imageUrl);
-      } catch (error) {
-      console.error('There has been a problem with your fetch operation:', error);
-      throw error; // Re-throw the error to propagate it to the caller
-      }
-    }
-    
-    async function analyzeRecording() {
-      modalTitle = '심장음 분석을 진행합니다.';
-      modalContent = `<img src="public/example.png" alt="Example"/><p>분석은 위와 같이 제공되며, 분석 결과는 테스트 기간 동안 보관됩니다. 분석을 진행하시겠습니까?</p>`;
-      showModal = true;
-    }
-  
-    function handleConfirm() {
-      alert('아직 준비중입니다. 스미마셍~');
-      showModal = false;
-    }
-  
-    function handleCancel() {
-      showModal = false;
-    }
-  
-  </script>
+  async function analyzeRecording() {
+    modalTitle = '심장음 분석을 진행합니다.';
+    modalContent = `<img src="public/example.png" alt="Example"/><p>분석은 위와 같이 제공되며, 분석 결과는 테스트 기간 동안 보관됩니다. 분석을 진행하시겠습니까?</p>`;
+    showModal = true;
+  }
+
+  function handleConfirm() {
+    alert('아직 준비중입니다. 스미마셍~');
+    showModal = false;
+  }
+
+  function handleCancel() {
+    showModal = false;
+  }
+
+</script>
   
   <main
     class="flex flex-col justify-between items-center min-w-[320px] min-h-screen bg-[#242424] text-white dark:bg-white dark:text-[#213547] px-4"
