@@ -34,14 +34,10 @@
     formData.append("audioFile", audioBlob);
 
     try {
-      const authToken = await fetchAuthToken();
       const response = await fetch(
         "https://asia-northeast3-heartsignal-webapp.cloudfunctions.net/wav-to-img-upload",
         {
           method: "POST",
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
           body: formData,
         }
       );
