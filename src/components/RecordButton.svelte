@@ -16,7 +16,6 @@
     analyzeButtonProps,
   } from "../stores/pageHeartSignalStore";
   import type { ButtonProps } from "../stores/pageHeartSignalStore"; // 타입만 import
-  import { fetchAuthToken } from "../utils/fetchAuthToken";
   import { updateTimer } from "../utils/timer";
   import { handleMicrophoneAccessError } from "../utils/errorHandler";
   import type { Writable } from 'svelte/store';
