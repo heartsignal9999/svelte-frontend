@@ -19,6 +19,7 @@
   import { updateTimer } from "../utils/timer";
   import { handleMicrophoneAccessError } from "../utils/errorHandler";
   import type { Writable } from 'svelte/store';
+  import { API_ENDPOINTS } from '../config/apiConfig';
 
   function setButtonProps(props: Writable<ButtonProps>, classes: string, text: string, disabled: boolean) {
   props.set({ classes, text, disabled });
@@ -34,7 +35,7 @@
 
     try {
       const response = await fetch(
-        "https://asia-northeast3-heartsignal-webapp.cloudfunctions.net/wav-to-img-upload",
+        API_ENDPOINTS.uploadAudio,
         {
           method: "POST",
           body: formData,
