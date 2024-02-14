@@ -10,8 +10,8 @@
     startTime,
     timerInterval,
     statusText,
-    audioUrl,
-    imageUrl,
+    originalAudioUrl,
+    originalImgUrl,
     isRerecording,
     analyzeButtonProps,
   } from "../stores/pageHeartSignalStore";
@@ -45,8 +45,8 @@
       if (!response.ok) throw new Error("Network response was not ok");
 
       const data = await response.json();
-      audioUrl.set(data.audioUrl);
-      imageUrl.set(data.imageUrl);
+      originalAudioUrl.set(data.audioUrl);
+      originalImgUrl.set(data.imageUrl);
     } catch (error) {
       console.error(
         "There has been a problem with your fetch operation:",

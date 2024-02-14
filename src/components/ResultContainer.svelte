@@ -1,14 +1,14 @@
 <script lang="ts">
   import {
-    audioUrl,
+    originalAudioUrl,
     isRecording,
-    imageUrl,
+    originalImgUrl,
   } from "../stores/pageHeartSignalStore";
 </script>
 
-{#if $audioUrl && !$isRecording}
+{#if $originalAudioUrl && !$isRecording}
   <div id="resultContainer" class="mt-5">
-    <img src={$imageUrl} alt="Spectrogram" class="mb-3" />
-    <audio src={$audioUrl} controls></audio>
+    <img src={$originalImgUrl} alt="Spectrogram" class="mb-3" />
+    <audio src={$originalAudioUrl} controls></audio>
   </div>
 {/if}
