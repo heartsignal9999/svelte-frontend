@@ -1,11 +1,46 @@
 <!-- src/components/Modal.svelte -->
 <script lang="ts">
+  import { API_ENDPOINTS } from '../config/apiConfig';
   import { showModal, modalTitle, modalContent } from '../stores/modalStore';
+  import { originalAudioUrl, processedImgUrl, isProcessing } from '../stores/pageHeartSignalStore';
 
-  function confirm() {
+  async function sendAudioUrl() {
+  if ($originalAudioUrl === null) {
+    console.error("No audio URL available");
+    return;
+  }
+  const formData = new FormData();
+  // Append the URL string directly
+  formData.append("audioFileUrl", $originalAudioUrl);
+
+  try {
+    const response = await fetch(
+      API_ENDPOINTS.processAudio,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    if (!response.ok) throw new Error("Network response was not ok");
+
+    const data = await response.json();
+    processedImgUrl.set(data.imageUrl);
+  } catch (error) {
+    console.error(
+      "There has been a problem with your fetch operation:",
+      error
+    );
+    throw error; // Re-throw the error to propagate it to the caller
+  }
+}
+
+function confirm() {
     // Confirm 버튼 클릭 시 수행할 작업
-    alert("아직 준비중입니다. 스미마셍~");
+    isProcessing.set(true);
     showModal.set(false);
+    sendAudioUrl();
+    isProcessing.set(false);
   }
 
   function cancel() {
