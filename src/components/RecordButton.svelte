@@ -14,33 +14,27 @@
     originalImgUrl,
     isRerecording,
     analyzeButtonProps,
+    isProcessing,
   } from "../stores/pageHeartSignalStore";
-  import type { ButtonProps } from "../stores/pageHeartSignalStore"; // 타입만 import
   import { updateTimer } from "../utils/timer";
+  import { setButtonProps } from "../utils/buttonPropSetter";
   import { handleMicrophoneAccessError } from "../utils/errorHandler";
-  import type { Writable } from 'svelte/store';
-  import { API_ENDPOINTS } from '../config/apiConfig';
+  import { API_ENDPOINTS } from "../config/apiConfig";
 
-  function setButtonProps(props: Writable<ButtonProps>, classes: string, text: string, disabled: boolean) {
-  props.set({ classes, text, disabled });
-}
   function stopRecording() {
     $mediaRecorder?.stop();
   }
-  
+
   async function uploadRecording() {
     const audioBlob = new Blob($audioChunks, { type: "audio/wav" });
     const formData = new FormData();
     formData.append("audioFile", audioBlob);
 
     try {
-      const response = await fetch(
-        API_ENDPOINTS.uploadAudio,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const response = await fetch(API_ENDPOINTS.uploadAudio, {
+        method: "POST",
+        body: formData,
+      });
 
       if (!response.ok) throw new Error("Network response was not ok");
 
@@ -57,19 +51,29 @@
   }
 
   function handleStopRecording() {
+    isProcessing.set(true);
     isRecording.set(false);
     $timerInterval && clearInterval($timerInterval);
     statusText.set(
       "녹음 파일을 그래프로 변환하고 있습니다. 다소 시간이 걸릴 수 있습니다."
     );
-    setButtonProps(recordButtonProps, "bg-gray-500", "녹음 종료", false);
-
+    setButtonProps(recordButtonProps, "bg-gray-500", "녹음 종료", true);
     uploadRecording()
       .then(() => {
         isRerecording.set(true);
         showAnalyzeButton.set(true);
-        setButtonProps(recordButtonProps, "bg-blue-500 hover:bg-blue-700", "녹음 다시 하기", false);
-        setButtonProps(analyzeButtonProps, "bg-green-500 hover:bg-green-700","심장음 분석하기",false);
+        setButtonProps(
+          recordButtonProps,
+          "bg-blue-500 hover:bg-blue-700",
+          "녹음 다시 하기",
+          false
+        );
+        setButtonProps(
+          analyzeButtonProps,
+          "custom-button",
+          "심장음 분석하기",
+          false
+        );
         statusText.set(
           "심장음 파일 분석을 위한 전처리가 완료되었습니다. <br>심장음이 잘 녹음되었는지 재생 버튼을 눌러 확인해보세요."
         );
@@ -77,8 +81,14 @@
       .catch((error) => {
         console.error("Error during upload:", error);
         statusText.set("Upload failed.");
-        setButtonProps(recordButtonProps, "bg-blue-500 hover:bg-blue-700", "녹음 다시 하기", false);
+        setButtonProps(
+          recordButtonProps,
+          "bg-blue-500 hover:bg-blue-700",
+          "녹음 다시 하기",
+          false
+        );
       });
+    isProcessing.set(false);
   }
 
   async function getUserMedia() {
@@ -92,7 +102,12 @@
     } catch (error) {
       console.error("Error accessing the microphone:", error);
       handleMicrophoneAccessError();
-      setButtonProps(recordButtonProps, "bg-blue-500 hover:bg-blue-700", "녹음 시작", false);
+      setButtonProps(
+        recordButtonProps,
+        "bg-blue-500 hover:bg-blue-700",
+        "녹음 시작",
+        false
+      );
       throw error;
     }
   }
@@ -104,14 +119,11 @@
     }
 
     $isRerecording
-      ? analyzeButtonProps.update((props) => ({
-          ...props,
-          classes: "bg-gray-500",
-        }))
+      ? setButtonProps(analyzeButtonProps, "bg-gray-500", "심장음 분석하기", true)
       : showAnalyzeButton.set(false);
 
     statusText.set("심장음 녹음을 위해 마이크 접근을 허용해주세요.");
-    setButtonProps(recordButtonProps, "bg-gray-500", "허용 대기중", false);
+    setButtonProps(recordButtonProps, "bg-gray-500", "허용 대기중", true);
     $audioChunks = [];
 
     try {
@@ -128,7 +140,12 @@
       timerDisplay.set("0:00");
       $startTime = Date.now();
       $timerInterval = setInterval(updateTimer, 1000);
-      setButtonProps(recordButtonProps, "bg-red-500 hover:bg-red-700", "녹음 종료", false);
+      setButtonProps(
+        recordButtonProps,
+        "bg-red-500 hover:bg-red-700",
+        "녹음 종료",
+        false
+      );
       statusText.set("녹음 중입니다. 10초 이상 심장음을 녹음하세요.");
     } catch (error) {
       // Error handling is already done in getUserMedia function
