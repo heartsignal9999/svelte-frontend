@@ -1,6 +1,6 @@
 <!-- src/Pages/AnalyzeButton.svelte -->
 <script lang="ts">
-  import { isRecording, showAnalyzeButton, analyzeButtonProps, isProcessing } from '../stores/pageHeartSignalStore';
+  import { showAnalyzeButton, analyzeButtonProps } from '../stores/pageHeartSignalStore';
   import { modalTitle, modalContent, showModal } from '../stores/modalStore';
 
   function analyzeRecording() {

@@ -7,6 +7,8 @@
     processedImgUrl,
     recordButtonProps,
     analyzeButtonProps,
+    hasMurmur,
+    hasMurmurProb,
   } from "../stores/pageHeartSignalStore";
   import { setButtonProps } from "../utils/buttonPropSetter";
 

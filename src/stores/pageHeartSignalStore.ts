@@ -15,6 +15,10 @@ export const startTime = writable<number>(0);
 export const mediaRecorder = writable<MediaRecorder | null>(null);
 export const audioChunks = writable<Blob[]>([]);
 export const timerInterval = writable<number | null>(null);
+export const isHeartsound = writable<boolean>(false);
+export const isHeartsoundProb = writable<number>(0);
+export const hasMurmur = writable<boolean>(false);
+export const hasMurmurProb = writable<number>(0);
 
 export interface ButtonProps {
   classes: string;
