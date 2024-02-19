@@ -51,13 +51,15 @@
   }
 
   function handleStopRecording() {
-    isProcessing.set(true);
     isRecording.set(false);
+
     $timerInterval && clearInterval($timerInterval);
     statusText.set(
       "녹음 파일을 그래프로 변환하고 있습니다. 다소 시간이 걸릴 수 있습니다."
     );
     setButtonProps(recordButtonProps, "bg-gray-500", "녹음 종료", true);
+    setButtonProps(recordButtonProps, "bg-gray-500", "심장음 분석", true);
+    isProcessing.set(true);
     uploadRecording()
       .then(() => {
         isRerecording.set(true);
@@ -71,7 +73,7 @@
         setButtonProps(
           analyzeButtonProps,
           "custom-button",
-          "심장음 분석하기",
+          "심장음 분석",
           false
         );
         statusText.set(
@@ -81,10 +83,7 @@
       .catch((error) => {
         console.error("Error during upload:", error);
         statusText.set("Upload failed.");
-        setButtonProps(
-          recordButtonProps,
-          "bg-blue-500 hover:bg-blue-700",
-          "녹음 다시 하기",
+        setButtonProps(recordButtonProps, "bg-blue-500 hover:bg-blue-700", "녹음 다시 하기",
           false
         );
       });
@@ -119,7 +118,12 @@
     }
 
     $isRerecording
-      ? setButtonProps(analyzeButtonProps, "bg-gray-500", "심장음 분석하기", true)
+      ? setButtonProps(
+          analyzeButtonProps,
+          "bg-gray-500",
+          "심장음 분석",
+          true
+        )
       : showAnalyzeButton.set(false);
 
     statusText.set("심장음 녹음을 위해 마이크 접근을 허용해주세요.");
@@ -163,7 +167,7 @@
 
 <button
   id="recordButton"
-  class="m-4 p-2 text-white text-xl py-2 px-4 rounded font-bold {$recordButtonProps.classes} {$showAnalyzeButton
+  class="m-4 p-2 text-white text py-2 px-4 rounded font-bold {$recordButtonProps.classes} {$showAnalyzeButton
     ? 'w-1/2'
     : 'w-full'}  mx-0"
   on:click={handleClick}

@@ -1,6 +1,6 @@
 <!-- src/Pages/AnalyzeButton.svelte -->
 <script lang="ts">
-  import { isRecording, showAnalyzeButton, analyzeButtonProps } from '../stores/pageHeartSignalStore';
+  import { isRecording, showAnalyzeButton, analyzeButtonProps, isProcessing } from '../stores/pageHeartSignalStore';
   import { modalTitle, modalContent, showModal } from '../stores/modalStore';
 
   function analyzeRecording() {
@@ -17,7 +17,7 @@
 {#if $showAnalyzeButton}
   <button
     id="analyzeButton"
-    class="flex-grow m-4 p-2 text-white text-xl py-2 px-4 rounded {$isRecording ? '' : 'custom-button'} font-bold {$analyzeButtonProps.classes}"
+    class="flex-grow m-4 p-2 text-white text py-2 px-4 rounded font-bold {$analyzeButtonProps.classes}"
     on:click={handleClick}
     disabled={$analyzeButtonProps.disabled}
   >

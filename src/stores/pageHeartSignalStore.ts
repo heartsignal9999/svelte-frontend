@@ -30,6 +30,6 @@ export const recordButtonProps = writable<ButtonProps>({
 
 export const analyzeButtonProps = writable<ButtonProps>({
   classes: 'hidden',
-  text: '심장음 분석하기',
-  disabled: true,
+  text: '심장음 분석',
+  disabled: false,
 });

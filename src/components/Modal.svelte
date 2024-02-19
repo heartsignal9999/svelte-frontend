@@ -5,9 +5,10 @@
   import {
     originalAudioUrl,
     processedImgUrl,
-    isProcessing,
+    recordButtonProps,
     analyzeButtonProps,
   } from "../stores/pageHeartSignalStore";
+  import { setButtonProps } from "../utils/buttonPropSetter";
 
   async function sendAudioUrl() {
     if ($originalAudioUrl === null) {
@@ -37,13 +38,17 @@
     }
   }
 
-  function confirm() {
+  async function confirm() {
     // Confirm 버튼 클릭 시 수행할 작업
-    isProcessing.set(true);
     showModal.set(false);
-    sendAudioUrl();
-    isProcessing.set(false);
-  }
+    setButtonProps(recordButtonProps, "bg-gray-500", "녹음 다시 하기", true);
+    setButtonProps(analyzeButtonProps, "bg-gray-500", "심장음 분석하기", true);
+    await sendAudioUrl();
+    setTimeout(() => {
+    setButtonProps(recordButtonProps, "bg-blue-500 hover:bg-blue-700", "녹음 다시 하기", false);
+    setButtonProps(analyzeButtonProps, "custom-button", "심장음 분석하기", false);
+  }, 0);
+}
 
   function cancel() {
     // Cancel 버튼 클릭 시 수행할 작업
@@ -62,11 +67,11 @@
       <div class="mb-4">{@html $modalContent}</div>
       <div class="flex">
         <button
-          class="w-1/2 bg-blue-500 text-white py-2 rounded hover:bg-blue-700 transition-colors mr-1"
+          class="w-1/2 text-white py-2 rounded bg-blue-500 hover:bg-blue-700 transition-colors mr-1"
           on:click={confirm}>예</button
         >
         <button
-          class="w-1/2 bg-gray-500 text-white py-2 rounded hover:bg-gray-700 transition-colors ml-1"
+          class="w-1/2 text-white py-2 rounded bg-gray-500 hover:bg-gray-700 transition-colors ml-1"
           on:click={cancel}>아니오</button
         >
       </div>

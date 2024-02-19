@@ -3,6 +3,6 @@
   import { statusText } from "../stores/pageHeartSignalStore";
 </script>
 
-<div id="status" class="text-lg mb-3 text-center">
+<div id="status" class="text-sm mb-3 text-center">
   {@html $statusText}
 </div>
