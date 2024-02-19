@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { originalAudioUrl, isRecording } from "../stores/pageHeartSignalStore";
+  import {
+    originalAudioUrl,
+    isRecording,
+  } from "../stores/pageHeartSignalStore";
 </script>
 
 <div class="my-5">

@@ -82,11 +82,11 @@
           "심장음 분석을 위한 준비가 완료되었습니다. <br>잘 녹음되었는지 재생 버튼을 눌러 확인해본 후, 심장음 분석을 시작하세요."
         );
         setButtonProps(
-    analyzeButtonProps,
-    "custom-button",
-    "심장음 분석",
-    false
-  );
+          analyzeButtonProps,
+          "custom-button",
+          "심장음 분석",
+          false
+        );
       } else {
         statusText.set(
           `심장 소리 녹음 점수가 ${Math.floor(
@@ -152,7 +152,7 @@
           "녹음 파일 전처리가 완료되었습니다. 심장소리가 잘 들리는지 확인 중입니다..."
         );
         sendAudioUrl().then(() => {
-          inferImg()
+          inferImg();
         });
       })
       .catch((error) => {

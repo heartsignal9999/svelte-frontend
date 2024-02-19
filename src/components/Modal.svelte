@@ -47,10 +47,20 @@
     setButtonProps(analyzeButtonProps, "bg-gray-500", "심장음 분석하기", true);
     await sendAudioUrl();
     setTimeout(() => {
-    setButtonProps(recordButtonProps, "bg-blue-500 hover:bg-blue-700", "녹음 다시 하기", false);
-    setButtonProps(analyzeButtonProps, "custom-button", "심장음 분석하기", false);
-  }, 0);
-}
+      setButtonProps(
+        recordButtonProps,
+        "bg-blue-500 hover:bg-blue-700",
+        "녹음 다시 하기",
+        false
+      );
+      setButtonProps(
+        analyzeButtonProps,
+        "custom-button",
+        "심장음 분석하기",
+        false
+      );
+    }, 0);
+  }
 
   function cancel() {
     // Cancel 버튼 클릭 시 수행할 작업

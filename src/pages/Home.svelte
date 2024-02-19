@@ -1,14 +1,14 @@
 <!-- src/Pages/Home.svelte -->
 <script lang="ts">
-    import { push } from "svelte-spa-router";
+  import { push } from "svelte-spa-router";
 
-    function navigateToHeartSignal() {
-        push("/heartsignal");
-    }
+  function navigateToHeartSignal() {
+    push("/heartsignal");
+  }
 </script>
 
 <main
-    class="flex flex-col justify-between items-center min-w-[320px] min-h-screen bg-[#242424] text-white dark:bg-white dark:text-[#213547] px-4"
+  class="flex flex-col justify-between items-center min-w-[320px] min-h-screen bg-[#242424] text-white dark:bg-white dark:text-[#213547] px-4"
 >
   <div class="flex-grow flex justify-center items-center">
     <div class="text-center">
