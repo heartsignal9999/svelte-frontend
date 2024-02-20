@@ -1,4 +1,4 @@
-// // src/utils/buttonPropSetter.ts
+// src/utils/buttonPropSetter.ts
 import { get } from 'svelte/store';
 import type { Writable } from 'svelte/store';
 import type { ButtonProps } from '../stores/pageHeartSignalStore';

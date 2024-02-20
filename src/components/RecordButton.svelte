@@ -18,6 +18,12 @@
     isHeartsound,
     isHeartsoundProb,
     processedImgUrl,
+    mediaStream,
+    segmentedImageUrl,
+    hasMurmur,
+    hasMurmurProb,
+    grayColumns,
+    whiteColumns,
   } from "../stores/pageHeartSignalStore";
   import { updateTimer } from "../utils/timer";
   import { setButtonProps } from "../utils/buttonPropSetter";
@@ -56,7 +62,7 @@
     }
   }
 
-  async function inferImg() {
+  async function inferImgIsHeartsound() {
     if ($processedImgUrl === null) {
       console.error("No audio URL available");
       return;
@@ -66,7 +72,7 @@
     formData.append("imgFileUrl", $processedImgUrl);
 
     try {
-      const response = await fetch(API_ENDPOINTS.inferenceAudio, {
+      const response = await fetch(API_ENDPOINTS.inferIsHeartsound, {
         method: "POST",
         body: formData,
       });
@@ -89,9 +95,12 @@
         );
       } else {
         statusText.set(
-          `심장 소리 녹음 점수가 ${Math.floor(
+          `심장 소리 녹음 점수: ${Math.floor(
             $isHeartsoundProb * 100
-          )}점입니다. 심장소리가 더 잘 들리도록 다시 녹음해보세요.`
+          )}점 <br>(60점 이상일 경우 분석가능)<br><br>
+          녹음 점수가 ${Math.floor(
+            $isHeartsoundProb * 100
+          )}점입니다. 심장소리가 더 잘들리도록 다시 녹음하세요.`
         );
       }
     } catch (error) {
@@ -129,11 +138,22 @@
   }
 
   function handleStopRecording() {
+    try {
+      // Stop the media tracks to turn off the microphone
+      const stream = $mediaStream;
+      if (stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach((track) => track.stop());
+        mediaStream.set(null); // Clear the stream reference in the store
+      }
+    } catch (error) {
+      console.error("Error stopping tracks:", error);
+    }
     isRecording.set(false);
 
     $timerInterval && clearInterval($timerInterval);
     statusText.set(
-      "녹음 파일을 그래프로 변환하고 있습니다. 다소 시간이 걸릴 수 있습니다."
+      "녹음 파일을 그래프로 변환하고 있습니다.<br>다소 시간이 걸릴 수 있습니다."
     );
     setButtonProps(recordButtonProps, "bg-gray-500", "녹음 종료", true);
     setButtonProps(analyzeButtonProps, "bg-gray-500", "심장음 분석", true);
@@ -145,14 +165,14 @@
         setButtonProps(
           recordButtonProps,
           "bg-blue-500 hover:bg-blue-700",
-          "녹음 다시 하기",
+          "다시 녹음",
           false
         );
         statusText.set(
-          "녹음 파일 전처리가 완료되었습니다. 심장소리가 잘 들리는지 확인 중입니다..."
+          "심장소리가 잘 녹음되었는지 확인 중입니다...<br><b>잠시 기다려주세요 😊</b>"
         );
         sendAudioUrl().then(() => {
-          inferImg();
+          inferImgIsHeartsound();
         });
       })
       .catch((error) => {
@@ -161,7 +181,7 @@
         setButtonProps(
           recordButtonProps,
           "bg-blue-500 hover:bg-blue-700",
-          "녹음 다시 하기",
+          "다시 녹음",
           false
         );
       });
@@ -199,12 +219,13 @@
       ? setButtonProps(analyzeButtonProps, "bg-gray-500", "심장음 분석", true)
       : showAnalyzeButton.set(false);
 
-    statusText.set("심장음 녹음을 위해 마이크 접근을 허용해주세요.");
+    statusText.set("녹음을 위해 마이크 접근을 허용해주세요.");
     setButtonProps(recordButtonProps, "bg-gray-500", "허용 대기중", true);
     $audioChunks = [];
 
     try {
       const stream = await getUserMedia();
+      mediaStream.set(stream); // Save the stream reference
       console.log(stream);
 
       $mediaRecorder
@@ -223,7 +244,15 @@
         "녹음 종료",
         false
       );
-      statusText.set("녹음 중입니다. 10초 이상 심장음을 녹음하세요.");
+      statusText.set("10초 이상 심장음을 녹음한 후,<br>파란색 버튼을 다시 누르세요.");
+      originalAudioUrl.set(null);
+      originalImgUrl.set(null);
+      processedImgUrl.set(null);
+      segmentedImageUrl.set(null);
+      hasMurmur.set(false);
+      hasMurmurProb.set(0);
+      grayColumns.set([]);
+      whiteColumns.set([]);
     } catch (error) {
       // Error handling is already done in getUserMedia function
     }
@@ -238,16 +267,19 @@
   }
 </script>
 
-<button
+<button 
   id="recordButton"
-  class="m-4 p-2 text-white text py-2 px-4 rounded font-bold {$recordButtonProps.classes} {$showAnalyzeButton
-    ? 'w-1/2'
-    : 'w-full'}  mx-0"
+  class="m-4 p-3 text-white text-base font-semibold rounded-lg 
+         bg-blue-500 hover:bg-blue-700 transition-colors
+         disabled:bg-gray-300 disabled:cursor-not-allowed
+         w-full" 
   on:click={handleClick}
-  disabled={$recordButtonProps.disabled}
->
+  disabled={$recordButtonProps.disabled}>
+
   {#if $isRecording}
-    <span id="timer" class="font-normal">{$timerDisplay}</span>
+     <span id="timer" class="font-normal">{$timerDisplay}</span>
+  {:else}
+     {$recordButtonProps.text} 
   {/if}
-  {$recordButtonProps.text}
+
 </button>

@@ -5,11 +5,14 @@
   } from "../stores/pageHeartSignalStore";
 </script>
 
-<div class="my-5">
-  <div id="description" class="text-sm text-center">
-    스마트폰 마이크를 심장 부근(왼쪽 가슴 아래 늑골)에 붙이고 녹음하세요.
+<div class="container mx-auto my-3">
+  <div id="description" class="text text-center mb-4">
+     <div>스마트폰 마이크를 심장 부근</div><div>(왼쪽 가슴 아래 늑골)에 붙여 녹음하세요.</div>
   </div>
-  {#if !$originalAudioUrl || $isRecording}
-    <img src="public/heartsignal.png" alt="Heart Signal" />
-  {/if}
+
+  <div class="text-center"> 
+    {#if !$originalAudioUrl || $isRecording}
+       <img src="public/img/heartsignal.png" alt="Heart Signal" />
+    {/if}
+  </div>
 </div>

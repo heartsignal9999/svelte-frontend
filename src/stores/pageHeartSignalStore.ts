@@ -2,8 +2,10 @@
 import { writable } from 'svelte/store';
 
 export const showModal = writable<boolean>(false);
+export const mediaStream = writable<MediaStream | null>(null);
 export const isRecording = writable<boolean>(false);
 export const showAnalyzeButton = writable<boolean>(false);
+export const showFindMedButton = writable<boolean>(false);
 export const isRerecording = writable<boolean>(false);
 export const isProcessing = writable<boolean>(false);
 export const statusText = writable<string>('녹음 준비가 완료되었습니다.');
@@ -11,6 +13,7 @@ export const timerDisplay = writable<string>('00:00');
 export const originalAudioUrl = writable<string | null>(null);
 export const originalImgUrl = writable<string | null>(null);
 export const processedImgUrl = writable<string | null>(null);
+export const segmentedImageUrl = writable<string | null>(null);
 export const startTime = writable<number>(0);
 export const mediaRecorder = writable<MediaRecorder | null>(null);
 export const audioChunks = writable<Blob[]>([]);
@@ -19,6 +22,9 @@ export const isHeartsound = writable<boolean>(false);
 export const isHeartsoundProb = writable<number>(0);
 export const hasMurmur = writable<boolean>(false);
 export const hasMurmurProb = writable<number>(0);
+export const whiteColumns = writable<number[]>([]);
+export const grayColumns = writable<number[]>([]);
+
 
 export interface ButtonProps {
   classes: string;
@@ -35,5 +41,11 @@ export const recordButtonProps = writable<ButtonProps>({
 export const analyzeButtonProps = writable<ButtonProps>({
   classes: 'hidden',
   text: '심장음 분석',
+  disabled: false,
+});
+
+export const findMedButtonProps = writable<ButtonProps>({
+  classes: 'hidden',
+  text: '근처 병원 찾기',
   disabled: false,
 });
