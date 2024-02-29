@@ -35,20 +35,6 @@
   });
 </script>
 
-<!-- <main
-  class="flex flex-col justify-between items-center min-w-[320px] min-h-screen bg-[#242424] text-white dark:bg-white dark:text-[#213547] px-4"
->
-  <div class="flex-grow flex justify-center items-center">
-    <div class="text-center">
-      <div class="text-4xl font-bold mb-1">
-        <span class="text-[var(--color-heart-signal-pink)]">Heart</span>
-        <span class="text-[var(--color-heart-signal-blue)]">Signal</span>
-      </div>
-      <div class="text-xl text-[#7b6f72] font-bold">
-        당신의 심장❤️에 귀기울여보세요
-      </div>
-    </div>
-  </div> -->
   <main class="flex flex-col justify-center items-center min-h-screen bg-gradient-to-br from-pink-400 to-blue-500 text-white text-center px-4">
     <div>
       <h1 class="text-5xl font-bold mb-2">Heart Signal</h1>
@@ -60,10 +46,4 @@
         시작하기
       </button>
     </div>  
-  <!-- <button
-    on:click={navigateToHeartSignal}
-    class="w-full m-4 p-2 text-white text-xl font-bold py-2 px-4 rounded custom-button"
-  >
-    시작하기
-  </button> -->
 </main>

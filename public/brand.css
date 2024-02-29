@@ -1,7 +1,15 @@
-/*  src/styles/custom-styles.css */
 :root {
   --color-heart-signal-pink: #eea4ce;
   --color-heart-signal-blue: #92a3fd;
+}
+
+/* 추가된 커스텀 클래스 */
+.text-heart-signal-blue {
+  color: var(--color-heart-signal-blue);
+}
+
+.text-heart-signal-pink {
+  color: var(--color-heart-signal-pink);
 }
 
 .custom-button {

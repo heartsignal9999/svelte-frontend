@@ -1,3 +1,4 @@
+//src/stores/modalStores.ts 
 import { writable } from 'svelte/store';
 
 export const modalTitle = writable('');

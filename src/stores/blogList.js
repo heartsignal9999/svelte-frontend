@@ -1,0 +1,1 @@
+export const blogList = [{"file":"1","title":"1st Summary"},{"file":"2","title":"2nd Architecture"},{"file":"3","title":"3rd Model"}];

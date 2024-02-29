@@ -6,11 +6,18 @@
   import ResultContainer from "../components/ResultContainer.svelte";
   import StatusText from "../components/StatusText.svelte";
   import UseInstruction from "../components/UseInstruction.svelte";
+  import Nav from "../components/Nav.svelte";
 </script>
 
-<main class="flex flex-col text-center items-center min-h-screen bg-gray-100 px-4 pt-6">
-  <div class="container max-w-md mx-auto"> 
-    <div class="text-xl font-semibold mb-6"><div>Record & Analyze</div><div>Your Heart Sounds</div></div> 
+<main class="flex flex-col text-center min-h-screen bg-gray-100 px-4 pt-6">
+  <div class="container max-w-md mx-auto mb-8"> <!-- Increased bottom margin -->
+    <Nav />
+  </div>
+  <div class="container max-w-md mx-auto items-center"> 
+    <div class="text-xl font-semibold mb-6">
+      <div>Record & Analyze</div>
+      <div>Your ❤️ Sounds</div>
+    </div> 
 
     <div class="text-sm text-gray-600 mb-4">
       <!-- <div>Heart Signal is currently in beta testing.</div> -->

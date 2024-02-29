@@ -13,6 +13,11 @@
   <div class="text-center"> 
     {#if !$originalAudioUrl || $isRecording}
        <img src="public/img/heartsignal.png" alt="Heart Signal" />
+       <div class="text-xs text-gray-600 m-3">이미지 출처: "Cardiac auscultation using 
+smartphones: a proof-of-concept study"
+Si-Hyuck Kang, Byunggill Joe, Yeonyee Yoon, Goo-Yeong Cho, Insik Shin, Jung-Won Suh(2018)
+</div>
+
     {/if}
   </div>
 </div>
