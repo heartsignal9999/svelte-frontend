@@ -2,7 +2,7 @@
 <script lang="ts">
   import { push } from "svelte-spa-router";
   import { blogList } from '../stores/blogList';
-  import { currentPost } from '../stores/blogStores';
+  import { currentPost, currentPostId } from '../stores/blogStores';
   import TableOfContents from '../components/blog/TableOfContents.svelte';
   import BlogContent from '../components/blog/BlogContent.svelte';
   import BottomNav from '../components/BottomNav.svelte';
@@ -13,8 +13,9 @@
 
   function loadPost(filename: string) {
     import(`./blog-contents/${filename}.ts`).then(post => {
-      currentPost.set({ title: post.title, content: post.content });
-      push(`/blog/${filename}`); // Add this line to navigate to the appropriate route
+      currentPost.set({ file: filename, title: post.title, content: post.content });
+      currentPostId.set(filename);
+      push(`/blog/${filename}`);
     });
   }
 </script>
@@ -32,11 +33,11 @@
     </div>
   </nav>
 
-  <div class="container mx-auto flex justify-between p-4">
-    <aside class="w-1/4">
+  <div class="container mx-auto flex flex-col md:flex-row md:items-stretch justify-between p-4">
+    <aside class="md:w-1/4 w-full mb-4 md:mb-0">
       <TableOfContents />
     </aside>
-    <section class="w-1/2">
+    <section class="md:w-3/4 w-full">
       <BlogContent />
     </section>
   </div>

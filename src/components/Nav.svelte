@@ -1,15 +1,17 @@
 <!-- src/components/Nav.svelte -->
 <script lang='ts'>
-    import { push } from "svelte-spa-router";
-  
-    // Blog 페이지로 이동하는 함수
-    function navigateToBlog() {
-      push('/blog');
-    }
-  
-    // Contact 메일 링크
-    const mailtoLink = 'mailto:heartsignal9999@gmail.com';
-  </script>
+  import { push } from "svelte-spa-router";
+  import { currentPostId } from '../stores/blogStores';
+
+  // Blog 페이지로 이동하는 함수
+  function navigateToBlog() {
+    currentPostId.set('1'); // Set the current post ID to '1'
+    push('/blog');
+  }
+
+  // Contact 메일 링크
+  const mailtoLink = 'mailto:heartsignal9999@gmail.com';
+</script>
   
 <!-- src/components/Nav.svelte -->
 <main>
