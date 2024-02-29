@@ -31,6 +31,8 @@
         {/if}
       {/each}
     </div>
+    <div>Current ID: {$currentPostId}</div> <!-- Display currentId for testing -->
+    
   </nav>
 
   <div class="container mx-auto flex flex-col md:flex-row md:items-stretch justify-between p-4">

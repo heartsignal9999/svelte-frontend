@@ -4,12 +4,8 @@
     import { currentPostId } from '../../stores/blogStores';
     import { push } from "svelte-spa-router";
 
-    let currentIndex: number | undefined;
-
-    $: {
-      const currentId = $currentPostId;
-      currentIndex = blogList.findIndex(post => post.file === currentId);
-    }
+    $: currentId = $currentPostId;
+    $: currentIndex = blogList.findIndex(post => post.file === currentId);
 
     $: prevPost = currentIndex > 0 ? blogList[currentIndex - 1] : null;
     $: nextPost = currentIndex < blogList.length - 1 && currentIndex !== -1 ? blogList[currentIndex + 1] : null;
@@ -22,7 +18,9 @@
     }
 </script>
 
+<main></main>
 <footer>
+
     {#if prevPost}
       <button on:click={() => navigateTo(prevPost.file)}>Prev: {prevPost.title}</button>
     {/if}
