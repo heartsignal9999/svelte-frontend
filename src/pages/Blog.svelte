@@ -14,6 +14,7 @@
   function loadPost(filename: string) {
     import(`./blog-contents/${filename}.ts`).then(post => {
       currentPost.set({ title: post.title, content: post.content });
+      push(`/blog/${filename}`); // Add this line to navigate to the appropriate route
     });
   }
 </script>

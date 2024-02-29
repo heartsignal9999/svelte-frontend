@@ -1,3 +1,4 @@
+// vite.config.ts
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { PluginOption } from 'vite';
@@ -27,5 +28,5 @@ const customMiddleware = (): PluginOption => {
 export default defineConfig({
   plugins: [svelte(), customMiddleware()],
   // publicDir 설정 추가
-  publicDir: '../public',
+  publicDir: 'public',
 });

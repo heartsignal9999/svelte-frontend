@@ -10,6 +10,7 @@ const routes = {
   '/': Home,
   '/heartsignal': HeartSignal,
   '/blog': Blog,
+  '/blog/:id': Blog, // Use dynamic segments to capture the post ID
   // 다른 경로들을 여기에 추가하세요.
 };
 
