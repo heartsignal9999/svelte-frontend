@@ -1,22 +1,25 @@
 <!-- src/Pages/Blog.svelte -->
 <script lang="ts">
-  import { push } from "svelte-spa-router";
+  import { push, location } from "svelte-spa-router";
   import { blogList } from '../stores/blogList';
-  import { currentPost, currentPostId } from '../stores/blogStores';
+  import { loadPost } from '../utils/contentLoader';
   import TableOfContents from '../components/blog/TableOfContents.svelte';
   import BlogContent from '../components/blog/BlogContent.svelte';
-  import BottomNav from '../components/BottomNav.svelte';
+  import BottomNav from '../components/blog/BottomNav.svelte';
 
+  // Navigation function
   function navigateToHome() {
     push('/heartsignal');
   }
 
-  function loadPost(filename: string) {
-    import(`./blog-contents/${filename}.ts`).then(post => {
-      currentPost.set({ file: filename, title: post.title, content: post.content });
-      currentPostId.set(filename);
-      push(`/blog/${filename}`);
-    });
+  // Load post based on URL change
+  $: {
+    const pathArray = $location.split('/');
+    const isBlogRoute = pathArray[1] === 'blog';
+    const postId = pathArray[2];
+    if (isBlogRoute && postId) {
+      loadPost(postId);
+    }
   }
 </script>
 
@@ -30,9 +33,7 @@
           <span>|</span>
         {/if}
       {/each}
-    </div>
-    <div>Current ID: {$currentPostId}</div> <!-- Display currentId for testing -->
-    
+    </div>    
   </nav>
 
   <div class="container mx-auto flex flex-col md:flex-row md:items-stretch justify-between p-4">

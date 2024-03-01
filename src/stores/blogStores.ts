@@ -1,6 +1,5 @@
 // src/stores/blogStores.ts
 import { writable } from 'svelte/store';
-import * as firstPost from '../pages/blog-contents/1';
 
 export interface BlogPost {
   file?: string;
@@ -8,11 +7,8 @@ export interface BlogPost {
   content: string;
 }
 
-// Store for the current post
-export const currentPost = writable<BlogPost>({ 
-  title: firstPost.title, 
-  content: firstPost.content 
-});
+export const currentPost = writable<BlogPost>({ title: '', content: '' });
+export const currentPostId = writable<string>('');
 
-// Store for the current post ID
-export const currentPostId = writable<string>('1'); // Default to '1'
+// Store for Table of Contents
+export const tableOfContents = writable<string[]>([]);
