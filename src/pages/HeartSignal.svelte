@@ -2,6 +2,7 @@
 <script lang="ts">
   import Modal from "../components/Modal.svelte";
   import RecordButton from "../components/RecordButton.svelte";
+  import UploadButton from "../components/UploadButton.svelte";
   import AnalyzeButton from "../components/AnalyzeButton.svelte";
   import ResultContainer from "../components/ResultContainer.svelte";
   import StatusText from "../components/StatusText.svelte";
@@ -23,7 +24,7 @@
       <!-- <div>Heart Signal is currently in beta testing.</div> -->
       <!-- <div>Your recordings will be stored in the cloud and retained until March 30th for testing purposes.</div> -->
       <div>현재 하트시그널은 베타테스트 중입니다.</div>
-      <div>녹음 파일은 3월 30일까지 보관 후 삭제됩니다.</div>
+      <div>녹음 파일은 4월 15일까지 보관 후 삭제됩니다.</div>
     </div>
 
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
@@ -32,7 +33,10 @@
       <StatusText />
 
       <div class="flex justify-center mt-4"> 
-        <RecordButton />  
+        <RecordButton /> 
+        <UploadButton />   
+      </div>
+      <div class="flex justify-center mt-4">
         <AnalyzeButton />
       </div>
     </div>

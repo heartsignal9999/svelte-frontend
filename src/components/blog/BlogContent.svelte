@@ -10,7 +10,7 @@
   {#if postContent}
     <section class="bg-white shadow-md p-8 rounded-lg text-gray-700">
       <h1 class="font-bold text-3xl mb-6">{postContent.title}</h1>
-      <div class="leading-7">
+      <div class="leading-7 whitespace-pre-line">
         {@html postContent.content}
       </div>
     </section>

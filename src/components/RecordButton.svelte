@@ -24,13 +24,15 @@
     hasMurmurProb,
     grayColumns,
     whiteColumns,
+    uploadButtonProps,
   } from "../stores/pageHeartSignalStore";
   import { updateTimer } from "../utils/timer";
-  import { setButtonProps } from "../utils/buttonPropSetter";
+  import { disableButton, enableButton, setButtonProps } from "../utils/buttonPropSetter";
   import { handleMicrophoneAccessError } from "../utils/errorHandler";
   import { API_ENDPOINTS } from "../config/apiConfig";
 
   function stopRecording() {
+    disableButton(recordButtonProps)
     $mediaRecorder?.stop();
   }
 
@@ -110,6 +112,7 @@
       );
       throw error; // Re-throw the error to propagate it to the caller
     }
+    enableButton(uploadButtonProps, "bg-blue-500 hover:bg-blue-700");
   }
 
   async function uploadRecording() {
@@ -151,13 +154,13 @@
     }
     isRecording.set(false);
 
-    $timerInterval && clearInterval($timerInterval);
+    $timerInterval && clearInterval($timerInterval);    
     statusText.set(
       "녹음 파일을 그래프로 변환하고 있습니다.<br>다소 시간이 걸릴 수 있습니다."
     );
+    setButtonProps(uploadButtonProps, "bg-gray-500", "파일 업로드", true);
     setButtonProps(recordButtonProps, "bg-gray-500", "녹음 종료", true);
     setButtonProps(analyzeButtonProps, "bg-gray-500", "심장음 분석", true);
-    isProcessing.set(true);
     uploadRecording()
       .then(() => {
         isRerecording.set(true);
@@ -184,6 +187,8 @@
           "다시 녹음",
           false
         );
+        enableButton(uploadButtonProps, "bg-blue-500 hover:bg-blue-700");
+
       });
     isProcessing.set(false);
   }

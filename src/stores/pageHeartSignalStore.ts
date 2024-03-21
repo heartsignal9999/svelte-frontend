@@ -38,6 +38,12 @@ export const recordButtonProps = writable<ButtonProps>({
   disabled: false,
 });
 
+export const uploadButtonProps = writable<ButtonProps>({
+  classes: 'bg-blue-500 hover:bg-blue-700',
+  text: '파일 업로드',
+  disabled: false,
+});
+
 export const analyzeButtonProps = writable<ButtonProps>({
   classes: 'hidden',
   text: '심장음 분석',
