@@ -1,7 +1,7 @@
 // src/pages/blog-contents/2.ts
-export const title: string = "딥러닝 모델 구성 전 탐색적 데이터셋 분석 (Exploratory Analyzing The CirCor DigiScope Dataset Before Building a Deep Learning Model)";
+export const title: string = "딥러닝 모델 구성 전 탐색적 데이터셋 분석";
 
-export const content: string = `
+export const content: string = `<p class='text leading-relaxed text-gray-400'>Exploratory Analyzing The CirCor DigiScope Dataset Before Building a Deep Learning Model</p>
 <p class='text-lg leading-relaxed text-gray-600'>[2부] <하트시그널> CV 세그멘테이션을 이용한 심장음 측정 모델</p>
 <div class='text-right text-gray-500'>이동희, 이명준, 김정현
 (KDT AIFFEL AI 리서치 6기)

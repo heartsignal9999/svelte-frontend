@@ -47,9 +47,9 @@
       >
         <ul class="space-y-2">
           {#each blogList as post}
-            <li>
+          <li class="border-b border-gray-200 mb-2 last:border-b-0 last:mb-0">
               <button
-                class="text-left w-full text-black"
+                class="text-left w-full text-black mb-2 text-sm hover:underline hover:font-semibold"
                 on:click={() => loadPost(post.file)}>{post.title}</button
               >
             </li>

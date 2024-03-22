@@ -1,7 +1,7 @@
 // src/pages/blog-contents/4.ts
-export const title: string = "컴퓨터 비전을 이용한 심장음 세그멘테이션 모델 개발(Establishing CV Segmentation Model for Heart Sound Spectrogram)";
+export const title: string = "컴퓨터 비전을 이용한 심장음 세그멘테이션 모델 개발";
 
-export const content: string = `
+export const content: string = `<p class='text leading-relaxed text-gray-400'>Establishing CV Segmentation Model for Heart Sound Spectrogram</p>
 <p class='text-lg leading-relaxed text-gray-600'>[4부] <하트시그널> CV 세그멘테이션을 이용한 심장음 측정 모델</p>
 <div class='text-right text-gray-500'>이동희, 이명준, 김정현
 (KDT AIFFEL AI 리서치 6기)

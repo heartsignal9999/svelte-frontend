@@ -6,7 +6,6 @@
   import BlogContent from "../components/blog/BlogContent.svelte";
   import BottomNav from "../components/blog/BottomNav.svelte";
   import BlogNav from "../components/blog/BlogNav.svelte";
-  import { teamInfoModal } from "../stores/blogStores";
   import TeamInfoModal from "../components/blog/TeamInfoModal.svelte";
 
   // Load post based on URL change

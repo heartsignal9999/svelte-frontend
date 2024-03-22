@@ -11,6 +11,8 @@ export interface BlogPost {
 export const currentPost = writable<BlogPost>({ title: '', content: '' });
 export const currentPostId = writable<string>('');
 export const teamInfoModal = writable<boolean>(false);
+export const ListModal = writable<boolean>(false);
+
 
 // Initialize the store with the contents of '1.ts'
 let initialTocItems = [];
