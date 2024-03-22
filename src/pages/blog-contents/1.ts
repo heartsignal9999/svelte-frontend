@@ -3,7 +3,8 @@ export const title: string = "심장음 세그멘테이션 모델 개발기 (Est
 
 export const content: string = `
 <p class='text-xl leading-relaxed text-gray-600'>[1부] <하트시그널> CV 세그멘테이션을 이용한 심장음 측정 모델</p>
-<div class="text-right"><a href="javascript:void(0);" class="text-blue-500 hover:text-blue-800" on:click={toggleModal}>팀 소개</a>
+<div class='text-right text-gray-500'>이동희, 이명준, 김정현
+(KDT AIFFEL AI 리서치 6기)
 </div>
 <hr class="w-1/3 ml-0"><p class='text-gray-600 text-justify'>
 여러분의 한 손에 테니스 공을 올려놓습니다. 그리고 1초마다 이 공을 꽉 쥐었다 펴는 운동을 해야 한다고 생각해보세요. 태어나서 죽을때까지 이 운동을 한다면? 당신은 평생 25억 번 공을 쥐었다 폈다 하게 됩니다.  
@@ -66,8 +67,8 @@ CV란 쉽게 말해 ‘눈 달린 컴퓨터’입니다. 물론 컴퓨터는 생
 </p>
 <div class="bg-gray-100 opacity-100 p-4"><strong>1. 이미지 분류(Image classification)</strong>
 이미지에 하나 이상의 레이블을 할당, 단일 레이블이거나 다중 레이블인 경우 존재
-<img src="src/pages/blog-contents/img/1_1.jpg" alt="Dogs catching wooden sticks"  class="rounded  p-4">	
-<pre class="bg-gray-900 text-white rounded p-3">
+<img src="/img/blog/1/1_1.jpg" alt="Dogs catching wooden sticks"  class="rounded  p-4">	
+<pre class="bg-gray-900 text-white rounded p-3 whitespace-pre-wrap">
 <code># 단일 레이블 분류
   : 강아지 입니다.
 
@@ -75,14 +76,14 @@ CV란 쉽게 말해 ‘눈 달린 컴퓨터’입니다. 물론 컴퓨터는 생
   : 강아지, 나무 막대기, 땅, 하늘입니다.</code></pre></div>
 <div class="bg-gray-100 opacity-100 p-4"><strong>2. 이미지 세그멘테이션(Image segmentation)</strong>
 이미지를 다른 영역으로 나누거나 분할하는 것이 목표, 각 영역은 일반적으로 하나의 범주를 나타냄
-  <img src="src/pages/blog-contents/img/1_2.jpg" alt="Dogs catching wooden sticks"  class="rounded p-4">	
-<pre class="bg-gray-900 text-white rounded p-3">
+<img src="/img/blog/1/1_2.jpg" alt="Dogs catching wooden sticks"  class="rounded p-4">	
+<pre class="bg-gray-900 text-white rounded p-3 whitespace-pre-wrap">
 <code># 이미지에서 각 범주의 외곽선을 픽셀 수준에서 분리한 후 일반적으로 이미지 분류 또한 진행합니다.</code></pre></div></div>
 <div class="bg-gray-100 opacity-100 p-4"><strong>3. 객체 탐지(Object detection)</strong>
 이미지에 있는 관심 있는 객체 주변에 [바운딩 박스]를 그리는 것이 목표, 각 사각형은 하나의 클래스에 연관됨. 예를 들면 자율 주행 자동차는 객체 탐지 모델을 사용해서 카메라 화면에서 자동차, 보행자, 표지판 등을 감지함
 	
-<img src="src/pages/blog-contents/img/1_3.jpg" alt="Dogs catching wooden sticks"  class="rounded  p-4">	
-<pre class="bg-gray-900 text-white rounded p-3">
+<img src="/img/blog/1/1_3.jpg" alt="Dogs catching wooden sticks"  class="rounded  p-4">	
+<pre class="bg-gray-900 text-white rounded p-3 whitespace-pre-wrap">
 <code># 특정 범주에 해당하는 물체에 대해 바운딩 박스를 그린 후,  물체의 범주를 분류합니다.</code></pre></div>
 </div>
 <p class='text leading-relaxed text-gray-600 text-justify'>
