@@ -1,9 +1,16 @@
 <!-- src/components/blog/BlogContent.svelte -->
 <script>
-  import { currentPost } from '../../stores/blogStores';
+  import { onMount } from "svelte";
+  import { currentPost } from "../../stores/blogStores";
 
   // Use Svelte's auto-subscription syntax ($:)
   $: postContent = $currentPost;
+  onMount(() => {
+    if (postContent && postContent.title) {
+      // 1. 타이틀이 있는지 확인
+      document.title = postContent.title; // 2. 타이틀 설정
+    }
+  });
 </script>
 
 <div class="container mx-auto p-4">

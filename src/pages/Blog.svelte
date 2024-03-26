@@ -7,6 +7,7 @@
   import BottomNav from "../components/blog/BottomNav.svelte";
   import BlogNav from "../components/blog/BlogNav.svelte";
   import TeamInfoModal from "../components/blog/TeamInfoModal.svelte";
+  import { onMount } from "svelte";
 
   // Load post based on URL change
   $: {
