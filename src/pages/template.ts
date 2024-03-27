@@ -6,7 +6,7 @@ export const content: string = `
 <div class="text-right">
   <a href="your-link-url" class="text-blue-500 hover:text-blue-800">팀 소개(작성자)</a>
 </div>
-<p class='text-gray-600'>
+<p class='text leading-relaxed text-gray-600 text-justify'>
 본문 내용입니다.<sup><a href="#footnote-1" id="ref-1">1</a></sup> 
 
 </p>
