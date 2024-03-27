@@ -8,6 +8,11 @@
   import StatusText from "../components/StatusText.svelte";
   import UseInstruction from "../components/UseInstruction.svelte";
   import Nav from "../components/Nav.svelte";
+  import { onMount } from "svelte";
+
+  onMount(() => {
+    document.title = '하트시그널 - 당신의 심장에 귀기울여보세요';
+  });
 </script>
 
 <main class="flex flex-col text-center min-h-screen bg-gray-100 px-4 pt-6">

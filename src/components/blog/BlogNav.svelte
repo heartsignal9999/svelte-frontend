@@ -5,7 +5,7 @@
   import { loadPost } from "../../utils/contentLoader";
   import { slide } from "svelte/transition";
   import { teamInfoModal, ListModal } from "../../stores/blogStores";
-  import { get } from 'svelte/store';
+  import { get } from "svelte/store";
 
   function navigateToServiceHome() {
     push("/heartsignal");
@@ -38,7 +38,9 @@
         >Service |</button
       >
       <button class="font-bold" on:click={toggleList}>Contents List |</button>
-      <button class="font-bold" on:click={() => teamInfoModal.set(true)}>Team</button>
+      <button class="font-bold" on:click={() => teamInfoModal.set(true)}
+        >Team</button
+      >
     </div>
     {#if $ListModal}
       <div
@@ -47,10 +49,13 @@
       >
         <ul class="space-y-2">
           {#each blogList as post}
-          <li class="border-b border-gray-200 mb-2 last:border-b-0 last:mb-0">
+            <li class="border-b border-gray-200 mb-2 last:border-b-0 last:mb-0">
               <button
                 class="text-left w-full text-black mb-2 text-sm hover:underline hover:font-semibold"
-                on:click={() => loadPost(post.file)}>{post.title}</button
+                on:click={() => {
+                  loadPost(post.file);
+                  document.title = post.title;
+                }}>{post.title}</button
               >
             </li>
           {/each}
