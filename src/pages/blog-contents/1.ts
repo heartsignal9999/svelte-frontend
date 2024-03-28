@@ -7,6 +7,7 @@ export const content: string = `<p class='text leading-relaxed text-gray-400'>Es
 (KDT AIFFEL AI 리서치 6기)
 </div>
 <hr class="w-1/3 ml-0"><p class='text-gray-600 text-justify'>
+<img src="/img/blog/1/1_0.png" alt="Summary of the Project"  class="rounded  p-4">	
 여러분의 한 손에 테니스 공을 올려놓습니다. 그리고 1초마다 이 공을 꽉 쥐었다 펴는 운동을 해야 한다고 생각해보세요. 태어나서 죽을때까지 이 운동을 한다면? 당신은 평생 25억 번 공을 쥐었다 폈다 하게 됩니다.  
 
 이것이 사람의 심장이 매초마다 쉼없이 하는 일입니다. 이 힘은 전속력으로 달릴 때 다리 근육이 쓰는 힘의 두배라고 합니다.<sup><a href="#footnote-1" id="ref-1">1</a></sup>  아무 것도 안 하고 ‘숨만 쉬어도’ 심장은 끊임없이 수축과 이완을 반복하면서 온몸에 피가 돌게 펌프질을 하고 있는 것이죠. 
