@@ -6,7 +6,7 @@ export const content: string = `<p class='text leading-relaxed text-gray-400'>Ex
 <div class='text-right text-gray-500'>이동희, 이명준, 김정현
 (KDT AIFFEL AI 리서치 6기)
 </div>
-<p class='text leading-relaxed text-gray-600 text-justify'>
+<hr class="w-1/3 ml-0"><p class='text-gray-600 text-justify'>
 심장소리를 시각화해서 분석한다는 프로젝트 개요를 지난 포스트에서 살펴보았습니다. 그렇다면 '소리'를 어떻게 하면 '눈으로 볼 수' 있을까요? 저희는 프로젝트를 진행하기 전에 우선 관련된 논문을 찾는 과정을 거쳤습니다. 심음에 대해서 최대한 다양한 방식으로 분석한 논문, 노이즈 제거에 대한 논문, 트랜스 포머 모델 등 다양한 모델을 적용한 논문, 심음이 아닌 폐음 등 비슷하지만 약간 다른 소리에 대한 분석 논문 등을 찾아보았는데요.
 
 저희는 컴퓨터 비전(CV)을 배웠고, 이미지를 사용하는 딥러닝 모델에 관심이 있었습니다. 프로젝트 진행기 1부에서 소리를 이미지로 나타내는 ‘스펙트로그램’에 대해서 이야기했는데요, . 스펙트로그램은 여러 신호로 구성된 정보를 각 신호로 나눠 표시하는 방법인 스펙트럼(spectrum)과 도표/시각자료를 나타내는 접미사(-gram)의 합성어입니다. 통상 스펙트로그램이라고 하면 음성 데이터를 시각화한 결과 이미지를 가리킵니다.
@@ -76,6 +76,7 @@ hea 파일은 녹음된 wav 파일의 메타 정보를 담고 있습니다. 녹�
 <strong>4. 텍스트(.txt) 파일</strong>
 txt 파일에는 연령, 성별, 키, 신장, 임신 여부, 심잡음 여부 등 진료시 수집된 다양한 정보가 기록되어 있습니다. 환자의 관련 정보가 있는 경우도 있고 nan(Not a Number)라는 다소 모호한 형태로 표기된 경우도 있는데 아예 수집되지 않은 경우로 보입니다(공식 자료에 이 표기에 대한 별다른 설명이 보이지 않습니다).
 
+<pre class="bg-gray-900 text-white rounded p-3 whitespace-pre-wrap">
 <code># 85349_TV.tsv
 0		2.41625	0
 2.41625	2.513605	4
@@ -110,6 +111,6 @@ EDA 과정을 마치고 이제 학습을 위한 본격적인 데이터셋 구축
 <p><sup id="footnote-1">1 </sup><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9253493/" target="_blank" class="text-blue-500 hover:text-blue-700">The CirCor DigiScope Dataset: From Murmur Detection to Murmur Classification - PMC</a> <a href="#ref-1">↩</a>
 <p><sup id="footnote-2">2 </sup><a href="https://moody-challenge.physionet.org/2022" target="_blank" class="text-blue-500 hover:text-blue-700">Heart Murmur Detection from Phonocardiogram Recordings: The George B. Moody PhysioNet Challenge 2022</a> <a href="#ref-2">↩</a>
 <p><sup id="footnote-3">3 </sup><a href="https://www.cinc.org/archives/2016/pdf/179-154.pdf" target="_blank" class="text-blue-500 hover:text-blue-700">Classification of Normal/Abnormal Heart Sound Recordings: the PhysioNet/Computing in Cardiology Challenge 2016</a> <a href="#ref-3">↩</a>
-<p><sup id="footnote-4">4 </sup>SUPERB AI 블로그, <a href="https://ko.wikipedia.org/wiki/%EC%8B%AC%EC%9E%A5%ED%8C%90%EB%A7%89" target="_blank" class="text-blue-500 hover:text-blue-700">심장판막 - 위키백과, 우리 모두의 백과사전</a> <a href="#ref-4">↩</a></p>
+<p><sup id="footnote-4">4 </sup><a href="https://ko.wikipedia.org/wiki/%EC%8B%AC%EC%9E%A5%ED%8C%90%EB%A7%89" target="_blank" class="text-blue-500 hover:text-blue-700">심장판막 - 위키백과, 우리 모두의 백과사전</a> <a href="#ref-4">↩</a></p>
 </footer>
 `;

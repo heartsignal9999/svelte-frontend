@@ -119,6 +119,4 @@ CV란 쉽게 말해 ‘눈 달린 컴퓨터’입니다. 물론 컴퓨터는 생
   <p><sup id="footnote-1">1 </sup><a href="https://www.pbs.org/wgbh/nova/heart/heartfacts.html" target="_blank" class="text-blue-500 hover:text-blue-700">PBS Online, “Amazing Heart Facts”</a> <a href="#ref-1">↩</a>
   <p><sup id="footnote-2">2 </sup><a href="https://ko.wikipedia.org/wiki/%EC%8B%AC%EB%B0%95%EC%88%98" target="_blank" class="text-blue-500 hover:text-blue-700"> - 위키백과, 우리 모두의 백과사전 - 심박수</a><a href="#ref-2">↩</a>
   <p><sup id="footnote-3">3 </sup>프랑소와 숄레, <a href="https://www.gilbut.co.kr/book/view?bookcode=BN003496" target="_blank" class="text-blue-500 hover:text-blue-700">케라스 창시자에게 배우는 딥러닝</a>(길벗, 2022) 328쪽<a href="#ref-3">↩</a>
-  <p><sup id="footnote-4">4 </sup>SUPERB AI 블로그, <a href="https://blog-ko.superb-ai.com/object-tracking-technology-for-video-analysis/" target="_blank" class="text-blue-500 hover:text-blue-700">동영상 분석을 위한 객체 추적 기술</a> <a href="#ref-4">↩</a></p>
-</footer>
-`;
+  <p><sup id="footnote-4">4 </sup>SUPERB AI 블로그, <a href="https://blog-ko.superb-ai.com/object-tracking-technology-for-video-analysis/" target="_blank" class="text-blue-500 hover:text-blue-700">동영상 분석을 위한 객체 추적 기술</a> <a href="#ref-4">↩</a></p></footer>`;
