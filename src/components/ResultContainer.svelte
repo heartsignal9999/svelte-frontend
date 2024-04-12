@@ -18,7 +18,7 @@
     <div class="flex justify-center items-center p-4">
       <!-- Spinner 이미지에 애니메이션과 그림자 추가 -->
       <img
-        src="public/img/spinner-heart-gif.png"
+        src="/img/spinner-heart-gif.png"
         alt="Your Heart is Pumping"
         class="w-20"
       />

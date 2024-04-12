@@ -9,7 +9,7 @@
   function analyzeRecording() {
     modalTitle.set("심장음 분석을 진행합니다.");
     modalContent.set(
-      `<img src="public/example.png" alt="Example"/><p>분석결과는 위와 같이 제공됩니다.<br>분석을 진행하시겠습니까?</p>`
+      `<img src="example.png" alt="Example"/><p>분석결과는 위와 같이 제공됩니다.<br>분석을 진행하시겠습니까?</p>`
     );
     showModal.set(true);
   }
