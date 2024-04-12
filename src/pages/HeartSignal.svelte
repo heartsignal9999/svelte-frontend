@@ -11,7 +11,7 @@
   import { onMount } from "svelte";
 
   onMount(() => {
-    document.title = '하트시그널 - 당신의 심장에 귀기울여보세요';
+    document.title = 'HeartSignal - Listen to Your Heart';
   });
 </script>
 

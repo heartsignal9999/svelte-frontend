@@ -16,11 +16,11 @@ currentPost.subscribe(post => {
   // "blog"이 포함되어 있다면 포스트의 타이틀로 페이지의 타이틀과 메타데이터를 설정
   if (isBlogRoute && post.title) {
     document.title = post.title;
-    setMetaTags(post.title, '하트시그널 - ' + post.title, '당신의 심장에 귀기울여보세요'); // 메타데이터 설정
+    setMetaTags(post.title, 'HeartSignal - ' + post.title, 'Listen to Your Heart'); // 메타데이터 설정
   } else {
     // "blog"이 포함되어 있지 않거나 포스트의 타이틀이 없는 경우 기본 제목과 메타데이터를 사용
-    document.title = '하트시그널 - 당신의 심장에 귀기울여보세요';
-    setMetaTags('하트시그널 - 당신의 심장에 귀기울여보세요', '하트시그널 - 당신의 심장에 귀기울여보세요', '당신의 심장에 귀기울여보세요'); // 메타데이터 설정
+    document.title = 'HeartSignal - Listen to Your Heart';
+    setMetaTags('HeartSignal - Listen to Your Heart', 'HeartSignal - Listen to Your Heart', 'Listen to Your Heart'); // 메타데이터 설정
   }
 });
 
@@ -31,8 +31,8 @@ onMount(() => {
 
   // "/heartsignal" 경로에 있다면 페이지 타이틀과 메타데이터를 설정
   if (isHeartSignalRoute) {
-    document.title = '하트시그널 - 당신의 심장에 귀기울여보세요';
-    setMetaTags('하트시그널 - 당신의 심장에 귀기울여보세요', '하트시그널 - 당신의 심장에 귀기울여보세요', '당신의 심장에 귀기울여보세요'); // 메타데이터 설정
+    document.title = 'HeartSignal - Listen to Your Heart';
+    setMetaTags('HeartSignal - Listen to Your Heart', 'HeartSignal - Listen to Your Heart', 'Listen to Your Heart'); // 메타데이터 설정
   }
 });
 
