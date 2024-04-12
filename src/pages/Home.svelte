@@ -39,11 +39,11 @@
     <div>
       <h1 class="text-5xl font-bold mb-2">Heart Signal</h1>
       <!-- <p class="text-2xl mb-6">Listen to the rhythm of your heart ❤️</p> -->
-      <p class="text-xl mb-6">당신의 심장❤️에 귀기울여보세요</p>
+      <p class="text-xl mb-6">Listen to Your ❤️</p>
 
       <button on:click={navigateToHeartSignal} 
               class="bg-white text-pink-500 py-3 px-6 text-xl font-semibold rounded-full shadow-md hover:bg-opacity-80 transition-colors">
-        시작하기
+        Get Started
       </button>
     </div>  
 </main>

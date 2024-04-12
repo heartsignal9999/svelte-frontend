@@ -23,7 +23,7 @@
     }
     isProcessing.set(true);
     statusText.set(
-      "심장음 분석을 진행하고 있습니다.<br>다소 시간이 걸릴 수 있습니다."
+      "Analysis is currently in progress. <br>This may take some time..."
     );
     const formData = new FormData();
     // Append the URL string directly
@@ -41,12 +41,12 @@
       segmentedImageUrl.set(data_segment.segmentedImageUrl);
       whiteColumns.set(data_segment.white_columns);
       grayColumns.set(data_segment.gray_columns);
-      statusText.set("심장음 분석이 완료되었습니다.<br>분석 결과는 정확하지 않을 수 있습니다. <br>정확한 진단과 처방을 받으려면, 가까운 순환기 내과를 방문하세요.");
+      statusText.set("Analysis has been complete.<br>Note that the results may not be accurate. <br>Please visit a nearby cardiology clinics for accurate diagnosis.");
       isProcessing.set(false);
       setButtonProps(
         recordButtonProps,
         "bg-blue-500 hover:bg-blue-700",
-        "새로운 녹음",
+        "Record Again",
         false
       );
     } catch (error) {
@@ -101,7 +101,7 @@
       setButtonProps(
         recordButtonProps,
         "bg-blue-500 hover:bg-blue-700",
-        "새로운 녹음",
+        "Record Again",
         false
       );
     } catch (error) {
@@ -126,9 +126,9 @@
 
       <div class="flex">
         <button class="w-1/2 bg-gray-500 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded mr-2" 
-                on:click={cancel}>아니오</button>
+                on:click={cancel}>Cancel</button>
         <button class="w-1/2 bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded" 
-                on:click={confirm}>예</button>
+                on:click={confirm}>Confirm</button>
       </div>
     </div> 
   </div>

@@ -7,9 +7,9 @@
   import { modalTitle, modalContent, showModal } from "../stores/modalStore";
 
   function analyzeRecording() {
-    modalTitle.set("심장음 분석을 진행합니다.");
+    modalTitle.set("Heart sound analysis will be in progress.");
     modalContent.set(
-      `<img src="example.png" alt="Example"/><p>분석결과는 위와 같이 제공됩니다.<br>분석을 진행하시겠습니까?</p>`
+      `<img src="example.png" alt="Example"/><p>The results will be provided as above. <br>Proceed to analyze?</p>`
     );
     showModal.set(true);
   }

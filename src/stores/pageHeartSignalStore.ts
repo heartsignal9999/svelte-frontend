@@ -8,7 +8,7 @@ export const showAnalyzeButton = writable<boolean>(false);
 export const showFindMedButton = writable<boolean>(false);
 export const isRerecording = writable<boolean>(false);
 export const isProcessing = writable<boolean>(false);
-export const statusText = writable<string>('녹음 준비가 완료되었습니다.');
+export const statusText = writable<string>('Ready to record');
 export const timerDisplay = writable<string>('00:00');
 export const originalAudioUrl = writable<string | null>(null);
 export const originalImgUrl = writable<string | null>(null);
@@ -34,24 +34,24 @@ export interface ButtonProps {
 
 export const recordButtonProps = writable<ButtonProps>({
   classes: 'bg-blue-500 hover:bg-blue-700',
-  text: '녹음 시작',
+  text: 'Start Recording',
   disabled: false,
 });
 
 export const uploadButtonProps = writable<ButtonProps>({
   classes: 'bg-blue-500 hover:bg-blue-700',
-  text: '파일 업로드',
+  text: 'Upload Audio',
   disabled: false,
 });
 
 export const analyzeButtonProps = writable<ButtonProps>({
   classes: 'hidden',
-  text: '심장음 분석',
+  text: 'Analyze ❤️',
   disabled: false,
 });
 
 export const findMedButtonProps = writable<ButtonProps>({
   classes: 'hidden',
-  text: '근처 병원 찾기',
+  text: 'Find Clinics',
   disabled: false,
 });

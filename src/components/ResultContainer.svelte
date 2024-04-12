@@ -56,23 +56,23 @@
           {#if $grayColumns.length + $whiteColumns.length < 5}
             <br />
             <div class="text-red-500">
-              분당 평균 심박수: 죄송합니다. 소리가 불분명해 정확히 계측할 수 없습니다.
+              Average heart rate per minute:  Sorry, accurate measurement cannot be provided due to unclear recording.
             </div>
           {:else}
             <div class="font-semibold text-gray-700">
-              <span class="text-heart-signal-blue">분당 평균 심박수:</span> 69회
+              <span class="text-heart-signal-blue">Average heart rate per minute:</span> 69회
 
               
             </div>
           {/if}
 
           <div class="text-gray-600">
-            심박수 정확도는 심장음 녹음 점수(현재
-            <span class="font-semibold text-heart-signal-pink">{Math.floor($isHeartsoundProb * 1000) / 10}점</span>)에 따라 달라질 수 있습니다.
+            Accuracy may vary depending on the heart sound recording score.(Current Score:
+            <span class="font-semibold text-heart-signal-pink">{Math.floor($isHeartsoundProb * 1000) / 10}</span>)
           </div>
 
           <div class="font-semibold text-gray-700">
-            <span class="text-heart-signal-blue">심잡음 존재 가능성:</span>
+            <span class="text-heart-signal-blue">Possibility of heart murmur presence:</span>
             {Math.floor($hasMurmurProb * 1000) / 10}%
           </div>
         </div>
@@ -88,5 +88,5 @@
 </div>
 
 {#if $isProcessing}
-  <div id="processedResult" class="text-center text-heart-signal-blue">처리중입니다.</div>
+  <div id="processedResult" class="text-center text-heart-signal-blue">Process in progress...</div>
 {/if}

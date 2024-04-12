@@ -87,22 +87,22 @@
 
       if ($isHeartsoundProb > 0.6) {
         statusText.set(
-          "심장음 분석을 위한 준비가 완료되었습니다. <br>잘 녹음되었는지 재생 버튼을 눌러 확인해본 후, 심장음 분석을 시작하세요."
+          "Preparation for heart sound analysis is complete. <br>Press the play button and check if the recording is clear before proceeding analysis."
         );
         setButtonProps(
           analyzeButtonProps,
           "custom-button",
-          "심장음 분석",
+          "Analyze ❤️ Sound",
           false
         );
       } else {
         statusText.set(
-          `심장 소리 녹음 점수: ${Math.floor(
+          `Heart Sound Recording Score: ${Math.floor(
             $isHeartsoundProb * 100
-          )}점 <br>(60점 이상일 경우 분석가능)<br><br>
-          녹음 점수가 ${Math.floor(
+          )}<br>(Analysis possible only when scored over 60)<br><br>
+          Your recording scored ${Math.floor(
             $isHeartsoundProb * 100
-          )}점입니다. 심장소리가 더 잘들리도록 다시 녹음하세요.`
+          )}. Please re-record to ensure being more audible`
         );
       }
     } catch (error) {
@@ -156,11 +156,11 @@
 
     $timerInterval && clearInterval($timerInterval);    
     statusText.set(
-      "녹음 파일을 그래프로 변환하고 있습니다.<br>다소 시간이 걸릴 수 있습니다."
+      "Converting the recording to a visible graph.<br>This may take some time."
     );
-    setButtonProps(uploadButtonProps, "bg-gray-500", "파일 업로드", true);
-    setButtonProps(recordButtonProps, "bg-gray-500", "녹음 종료", true);
-    setButtonProps(analyzeButtonProps, "bg-gray-500", "심장음 분석", true);
+    setButtonProps(uploadButtonProps, "bg-gray-500", "Upload Audio", true);
+    setButtonProps(recordButtonProps, "bg-gray-500", "Stop Recording", true);
+    setButtonProps(analyzeButtonProps, "bg-gray-500", "Analyze ❤️ Sound", true);
     uploadRecording()
       .then(() => {
         isRerecording.set(true);
@@ -168,11 +168,11 @@
         setButtonProps(
           recordButtonProps,
           "bg-blue-500 hover:bg-blue-700",
-          "다시 녹음",
+          "Record Again",
           false
         );
         statusText.set(
-          "심장소리가 잘 녹음되었는지 확인 중입니다...<br><b>잠시 기다려주세요 😊</b>"
+          "Checking if the heart sounds are recorded clearly..."
         );
         sendAudioUrl().then(() => {
           inferImgIsHeartsound();
@@ -184,7 +184,7 @@
         setButtonProps(
           recordButtonProps,
           "bg-blue-500 hover:bg-blue-700",
-          "다시 녹음",
+          "Record Again",
           false
         );
         enableButton(uploadButtonProps, "bg-blue-500 hover:bg-blue-700");
@@ -207,7 +207,7 @@
       setButtonProps(
         recordButtonProps,
         "bg-blue-500 hover:bg-blue-700",
-        "녹음 시작",
+        "Start Recording",
         false
       );
       throw error;
@@ -221,11 +221,11 @@
     }
 
     $isRerecording
-      ? setButtonProps(analyzeButtonProps, "bg-gray-500", "심장음 분석", true)
+      ? setButtonProps(analyzeButtonProps, "bg-gray-500", "Analyze ❤️ sound", true)
       : showAnalyzeButton.set(false);
 
-    statusText.set("녹음을 위해 마이크 접근을 허용해주세요.");
-    setButtonProps(recordButtonProps, "bg-gray-500", "허용 대기중", true);
+    statusText.set("Please allow microphone access for recording.");
+    setButtonProps(recordButtonProps, "bg-gray-500", "Waiting", true);
     $audioChunks = [];
 
     try {
@@ -236,7 +236,7 @@
       $mediaRecorder
         ? $mediaRecorder.start()
         : statusText.set(
-            "죄송합니다. 녹음을 시작할 수 없습니다. 다른 스마트 기기로 다시 시도해보세요."
+            "Sorry, unable to start recording. Try again with another device."
           );
       isHeartsoundProb.set(0);
       isRecording.set(true);
@@ -246,10 +246,10 @@
       setButtonProps(
         recordButtonProps,
         "bg-red-500 hover:bg-red-700",
-        "녹음 종료",
+        "Stop Recording",
         false
       );
-      statusText.set("10초 이상 심장음을 녹음한 후,<br>파란색 버튼을 다시 누르세요.");
+      statusText.set("press the blue button again<br>after recording for more than 10 seconds.");
       originalAudioUrl.set(null);
       originalImgUrl.set(null);
       processedImgUrl.set(null);

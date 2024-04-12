@@ -3,21 +3,21 @@
   import { teamInfoModal } from '../../stores/blogStores';
   let teamMembers = [
     {
-      name: "이동희",
-      role: "모델 개발, 팀 리드",
-      description: "기초과학연구원 뇌과학 이미징 연구단 소속 연구원",
+      name: "Dong-Hee Lee",
+      role: "Deep Learning Model Development Lead",
+      description: "IBS Center for Neuroscience Imaging Research, M.S. in Biomedical Engineering",
       github: "https://github.com/leedh/",
     },
     {
-      name: "이명준",
-      role: "모델 개발, 데이터 전처리",
-      description: "KDT AI 리서치 과정, AI사물인터넷(AIoT)과정 수료",
+      name: "Myung-jun Lee",
+      role: "Data Preprocessing, Backend Development",
+      description: "KDT AI Research Course, B.S. in Chemistry Engineering",
       github: "https://github.com/Chancecatch1",
     },
     {
-      name: "김정현",
-      role: "웹앱, 프론트엔드 개발",
-      description: "KDT AI 리서치 과정, 42서울 본과정 수료",
+      name: "Jung-hyun Kim",
+      role: "Web Frontend Development, Service Deployment",
+      description: "KDT AI Research Course, M.S. in Education Science",
       github: "https://github.com/seoulcity",
     },
     // ... Add the other team members here in a similar structure
@@ -28,7 +28,7 @@
   {#if $teamInfoModal}
   <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
     <div class="bg-white rounded p-8 shadow-lg text-black">
-      <h2 class="text-lg font-bold mb-4">하트시그널 팀 소개</h2>
+      <h2 class="text-lg font-bold mb-4">Introduction of HeartSignal Team</h2>
       <ul>
         {#each teamMembers as member}
           <li class="mb-4">

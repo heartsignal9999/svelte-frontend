@@ -28,8 +28,8 @@
     <div class="text-sm text-gray-600 mb-4">
       <!-- <div>Heart Signal is currently in beta testing.</div> -->
       <!-- <div>Your recordings will be stored in the cloud and retained until March 30th for testing purposes.</div> -->
-      <div>현재 하트시그널은 베타테스트 중입니다.</div>
-      <div>녹음 파일은 4월 15일까지 보관 후 삭제됩니다.</div>
+      <div>HeartSignal is in beta testing.</div>
+      <div>Saved recordings will be stored until April 15th, 2024, and then deleted.</div>
     </div>
 
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
