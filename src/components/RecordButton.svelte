@@ -249,7 +249,7 @@
         "Stop Recording",
         false
       );
-      statusText.set("press the blue button again<br>after recording for more than 10 seconds.");
+      statusText.set("Press the blue button again<br>after recording for more than 10 seconds.");
       originalAudioUrl.set(null);
       originalImgUrl.set(null);
       processedImgUrl.set(null);

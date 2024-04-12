@@ -9,7 +9,7 @@
   function analyzeRecording() {
     modalTitle.set("Heart sound analysis will be in progress.");
     modalContent.set(
-      `<img src="example.png" alt="Example"/><p>The results will be provided as above. <br>Proceed to analyze?</p>`
+      `<img src="example.png" alt="Example"/><p>The results will be provided as above. Proceed to analyze?</p>`
     );
     showModal.set(true);
   }
